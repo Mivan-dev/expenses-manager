@@ -72,6 +72,27 @@ export class GastosService {
     this.saveData();
   }
 
+  public agregarCuota(tarjeta: Tarjeta, cuota: Cuota){
+    const dataTarjeta = this.tarjeta();
+    const cuotasTarjeta = dataTarjeta.map(t => t.id === tarjeta.id ? { ...t, cuotas: [...t.cuotas, cuota] } : t)
+    this.tarjeta.set(cuotasTarjeta)
+    this.saveData()
+  }
+
+    public editarCuota(tarjeta: Tarjeta, cuota: Cuota){
+      const dataTarjeta = this.tarjeta();
+      const cuotasTarjeta = dataTarjeta.map(t => t.id === tarjeta.id ? { ...t, cuotas: t.cuotas.map(c => c.id === cuota.id ? cuota: c) } : t)
+      this.tarjeta.set(cuotasTarjeta)
+      this.saveData()
+    }
+
+    public eliminarCuota(tarjetaId: string, cuotaId: string){
+      const dataTarjeta = this.tarjeta();
+      const newCuotas = dataTarjeta.map(t => t.id === tarjetaId ? {...t, cuotas: t.cuotas.filter(c => c.id !== cuotaId)}: t)
+      this.tarjeta.set(newCuotas)
+      this.saveData()
+    }
+
 }
 
 
