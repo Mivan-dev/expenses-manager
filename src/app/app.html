@@ -1,6 +1,6 @@
 <div class="flex">
-    <div class="w-64 h-screen bg-linear-95 from-lime-300 to-emerald-900 rounded-r-2xl">
-    <app-nav />
+    <div class="h-screen bg-linear-95 from-lime-300 to-emerald-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-64' : 'w-16'">
+    <app-nav (expandedChange)="onNavToggle($event)"/>
   </div>
     <main class="flex-1 text-center">
       <app-tarjetas />

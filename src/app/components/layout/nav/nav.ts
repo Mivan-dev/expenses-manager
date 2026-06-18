@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -7,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrl: './nav.css',
 })
 export class Nav {
+
+  isExpanded = signal<boolean>(true)
+
+  toggle(){
+    this.isExpanded.set(!this.isExpanded())
+    this.expandedChange.emit(this.isExpanded()) 
+  }
+
+  @Output() expandedChange = new EventEmitter<boolean>()
+
 
 }

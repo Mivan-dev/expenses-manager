@@ -1,16 +1,37 @@
-<div class="flex flex-col justify-between h-full">
+<div class="flex flex-col justify-between h-full relative">
   <div class="">
     <img src="" alt="logo" />
-    <h1 id="logo" class="text-shadow-2xs text-center">Ant Expenses</h1>
+    <h1 id="logo" class="text-shadow-2xs text-center" [class.hidden]="!isExpanded()">Ant Expenses</h1>
   </div>
 
-  <div class="flex flex-col grid-rows-4 gap-4">
-    <button class="">+ Agregar Tarjeta</button>
-    <button>+ Agregar Servicio</button>
-    <button>+ Proxima funcion</button>
-    <button>+ Algo mas</button>
+  <div class="flex">
+    <div class="flex flex-col grid-rows-4 gap-4 mx-auto">
+      <button class="navbutton">
+        <span>+</span>
+        <span [class.hidden]="!isExpanded()">Agregar Tarjeta</span>
+      </button>
+      <button class="navbutton">
+        <span>+</span>
+        <span [class.hidden]="!isExpanded()">Agregar Servicio</span>
+      </button>
+      <button class="navbutton">
+        <span>+</span>
+        <span [class.hidden]="!isExpanded()">Proxima funcion</span>
+      </button>
+      <button class="navbutton">
+        <span>+</span>
+        <span [class.hidden]="!isExpanded()">Algo mas</span>
+      </button>
+    </div>
+    <div class="flex absolute -right-4 top-1/2">
+        <button class="cursor-pointer rounded-full bg-lime-500 text-shadow-lg" (click)="toggle()">---</button>
+    </div>
   </div>
+
   <div class="text-center p-4">
-    <button>Logout</button>
+    <button class="bg-lime-500 px-3 rounded-full cursor-pointer">
+      <span>-</span>
+      <span [class.hidden]="!isExpanded()">Logout</span>
+      </button>
   </div>
 </div>
