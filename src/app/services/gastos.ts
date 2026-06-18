@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
+import { Cuota } from '../models/cuota.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,6 @@ export class GastosService {
   constructor() {
     
     this.loadData();
-    //this.saveData();
     
   }
 
@@ -40,18 +40,38 @@ export class GastosService {
 
   public editarTarjeta(tarjeta: Tarjeta) {
     const tarjetas = this.tarjeta();
-    // const index = tarjetas.findIndex(t => t.id === tarjeta.id)
     const newTarjetas = tarjetas.map(t => t.id === tarjeta.id ? tarjeta: t)
     this.tarjeta.set(newTarjetas)
     this.saveData();
   }
 
-  public eliminarTarjeta(tarjeta: Tarjeta){
+  public eliminarTarjeta(id: string){
     const tarjetas = this.tarjeta();
-    const newTarjetas = tarjetas.filter(t => t.id === tarjeta.id ? tarjeta: t)
+    const newTarjetas = tarjetas.filter(t => t.id !== id)
     this.tarjeta.set(newTarjetas)
     this.saveData();
   }
+
+  public agregarServicio(servicio: Servicio) {
+    const servicios = this.servicio();
+    this.servicio.set([...servicios, servicio]);
+    this.saveData();
+  }
+
+  public editarServicio(servicio: Servicio) {
+    const servicios = this.servicio();
+    const newServicios = servicios.map(s => s.id === servicio.id ? servicio: s)
+    this.servicio.set(newServicios)
+    this.saveData();
+  }
+
+  public eliminarServicio(id: string){
+    const servicios = this.servicio();
+    const newServicios = servicios.filter(s => s.id !== id)
+    this.servicio.set(newServicios)
+    this.saveData();
+  }
+
 }
 
 
