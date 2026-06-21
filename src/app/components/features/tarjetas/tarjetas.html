@@ -1,1 +1,6 @@
-<p>tarjetas works!</p>
+ @for (tarjeta of gastosService.tarjeta() ; track tarjeta.id) {
+        <div class="">
+            <p>{{tarjeta.nombre}}</p>
+            <p>{{tarjeta.monto}}</p>
+        </div>
+    }
