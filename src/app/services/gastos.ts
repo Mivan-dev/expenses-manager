@@ -7,13 +7,20 @@ import { Cuota } from '../models/cuota.model';
   providedIn: 'root',
 })
 export class GastosService {
-  tarjeta = signal<Tarjeta[]>([])
-  servicio = signal<Servicio[]>([])
-  
+  tarjeta = signal<Tarjeta[]>([]);
+  servicio = signal<Servicio[]>([]);
+  modalAbierto = signal<string | null>(null);
+
   constructor() {
-    
     this.loadData();
-    
+  }
+
+  public abrirModal(tipo: string) {
+    this.modalAbierto.set(tipo);
+  }
+
+  public cerrarModal() {
+    this.modalAbierto.set(null);
   }
 
   private loadData() {
@@ -40,15 +47,15 @@ export class GastosService {
 
   public editarTarjeta(tarjeta: Tarjeta) {
     const tarjetas = this.tarjeta();
-    const newTarjetas = tarjetas.map(t => t.id === tarjeta.id ? tarjeta: t)
-    this.tarjeta.set(newTarjetas)
+    const newTarjetas = tarjetas.map((t) => (t.id === tarjeta.id ? tarjeta : t));
+    this.tarjeta.set(newTarjetas);
     this.saveData();
   }
 
-  public eliminarTarjeta(id: string){
+  public eliminarTarjeta(id: string) {
     const tarjetas = this.tarjeta();
-    const newTarjetas = tarjetas.filter(t => t.id !== id)
-    this.tarjeta.set(newTarjetas)
+    const newTarjetas = tarjetas.filter((t) => t.id !== id);
+    this.tarjeta.set(newTarjetas);
     this.saveData();
   }
 
@@ -60,40 +67,44 @@ export class GastosService {
 
   public editarServicio(servicio: Servicio) {
     const servicios = this.servicio();
-    const newServicios = servicios.map(s => s.id === servicio.id ? servicio: s)
-    this.servicio.set(newServicios)
+    const newServicios = servicios.map((s) => (s.id === servicio.id ? servicio : s));
+    this.servicio.set(newServicios);
     this.saveData();
   }
 
-  public eliminarServicio(id: string){
+  public eliminarServicio(id: string) {
     const servicios = this.servicio();
-    const newServicios = servicios.filter(s => s.id !== id)
-    this.servicio.set(newServicios)
+    const newServicios = servicios.filter((s) => s.id !== id);
+    this.servicio.set(newServicios);
     this.saveData();
   }
 
-  public agregarCuota(tarjeta: Tarjeta, cuota: Cuota){
+  public agregarCuota(tarjeta: Tarjeta, cuota: Cuota) {
     const dataTarjeta = this.tarjeta();
-    const cuotasTarjeta = dataTarjeta.map(t => t.id === tarjeta.id ? { ...t, cuotas: [...t.cuotas, cuota] } : t)
-    this.tarjeta.set(cuotasTarjeta)
-    this.saveData()
+    const cuotasTarjeta = dataTarjeta.map((t) =>
+      t.id === tarjeta.id ? { ...t, cuotas: [...t.cuotas, cuota] } : t,
+    );
+    this.tarjeta.set(cuotasTarjeta);
+    this.saveData();
   }
 
-    public editarCuota(tarjeta: Tarjeta, cuota: Cuota){
-      const dataTarjeta = this.tarjeta();
-      const cuotasTarjeta = dataTarjeta.map(t => t.id === tarjeta.id ? { ...t, cuotas: t.cuotas.map(c => c.id === cuota.id ? cuota: c) } : t)
-      this.tarjeta.set(cuotasTarjeta)
-      this.saveData()
-    }
+  public editarCuota(tarjeta: Tarjeta, cuota: Cuota) {
+    const dataTarjeta = this.tarjeta();
+    const cuotasTarjeta = dataTarjeta.map((t) =>
+      t.id === tarjeta.id
+        ? { ...t, cuotas: t.cuotas.map((c) => (c.id === cuota.id ? cuota : c)) }
+        : t,
+    );
+    this.tarjeta.set(cuotasTarjeta);
+    this.saveData();
+  }
 
-    public eliminarCuota(tarjetaId: string, cuotaId: string){
-      const dataTarjeta = this.tarjeta();
-      const newCuotas = dataTarjeta.map(t => t.id === tarjetaId ? {...t, cuotas: t.cuotas.filter(c => c.id !== cuotaId)}: t)
-      this.tarjeta.set(newCuotas)
-      this.saveData()
-    }
-
+  public eliminarCuota(tarjetaId: string, cuotaId: string) {
+    const dataTarjeta = this.tarjeta();
+    const newCuotas = dataTarjeta.map((t) =>
+      t.id === tarjetaId ? { ...t, cuotas: t.cuotas.filter((c) => c.id !== cuotaId) } : t,
+    );
+    this.tarjeta.set(newCuotas);
+    this.saveData();
+  }
 }
-
-
-

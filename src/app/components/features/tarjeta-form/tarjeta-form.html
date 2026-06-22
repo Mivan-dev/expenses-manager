@@ -1,1 +1,8 @@
-<p>tarjeta-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" action="">
+    <input type="text" formControlName="nombre" placeholder="Nombre: Tarjeta Naranja">
+    <input type="text" formControlName="empresa" placeholder="Empresa: NaranjaX">
+    <input type="text" formControlName="monto" placeholder="Monto: $210000">
+    <input type="text" formControlName="vencimiento" placeholder="Vencimiento: 10/07/2026">
+    <button type="submit">Cargar Tarjeta</button>
+    <button (click)="gastosService.cerrarModal()">Cancelar</button>
+</form>
