@@ -1,6 +1,31 @@
- @for (tarjeta of gastosService.tarjeta() ; track tarjeta.id) {
-        <div class="">
-            <p>{{tarjeta.nombre}}</p>
-            <p>{{tarjeta.monto}}</p>
+<div class="grid grid-cols-3 gap-4 items-start">
+  @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
+    <div
+      class="flex flex-col rounded-xl overflow-hidden shadow hover:shadow-md max-w-sm bg-gray-100 h-auto gap-4 p-4"
+    >
+      <div class="pl-3 p-3 flex justify-between">
+        <p class="text-base mb-2 font-bold truncate">{{ tarjeta.nombre }}</p>
+        <h2 class="text-2xl font-bold">
+          {{ tarjeta.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+        </h2>
+      </div>
+      <div class="flex justify-between text-xs text-primary mb-2 px-4">
+        <a class="flex items-center">
+          <img src="/iconos/barito.jpg" class="rounded-full h-8 w-8 mr-2 object-cover" />
+          <span class="font-bold tracking-wide text-sm text-gray-700">{{ tarjeta.empresa }}</span>
+        </a>
+        <div class="text-sm tracking-wider text-right">
+          Vencimiento: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
         </div>
-    }
+      </div>
+      <hr class="border-gray-300">
+      @for (cuota of tarjeta.cuotas; track cuota.id) {
+        <div class="flex justify-between">
+          <p>{{cuota.nombre}}</p>
+          <p>{{cuota.cuotaActual}}/{{cuota.cuotaTotal}}</p>
+          <p>{{ cuota.monto  | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
+        </div>
+      }
+    </div>
+  }
+</div>
