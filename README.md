@@ -1,59 +1,67 @@
-# ExpensesManager
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.22.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+# Expenses Manager
+ 
+A personal expense manager built with Angular 20+ and Tailwind CSS.
+ 
+## Overview
+ 
+App to track monthly expenses grouped by credit cards, services, and upcoming due dates. All data is persisted in localStorage.
+ 
+## Tech Stack
+ 
+- **Framework:** Angular 20
+- **Styling:** Tailwind CSS v4
+- **State Management:** Angular Signals
+- **Storage:** localStorage (future: backend API)
+## Project Structure
+ 
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+src/app/
+│
+├── models/
+│   ├── base.model.ts          # Base interface (id, nombre, icono?)
+│   ├── tarjeta.model.ts       # Extends base — credit card with cuotas[]
+│   ├── cuota.model.ts         # Extends base — installment (cuotaActual/cuotaTotal)
+│   └── servicio.model.ts      # Extends base — monthly service (luz, gas, etc.)
+│
+├── services/
+│   └── gastos.ts              # Central service — signals, localStorage, CRUD, modal state
+│
+└── components/
+    ├── layout/
+    │   ├── nav/               # Collapsible sidebar with action buttons
+    │   └── footer/
+    └── features/
+        ├── tarjetas/          # Displays credit card list
+        ├── tarjeta-form/      # Modal form to add/edit a tarjeta
+        ├── cuotas/            # Displays installments per card
+        ├── cuota-form/        # Modal form to add/edit a cuota
+        ├── servicios/         # Displays monthly services
+        ├── servicio-form/     # Modal form to add/edit a servicio
+        └── proximos-vencimientos/  # Sorted list of upcoming due dates
 ```
+ 
+## Features
+ 
+- [x] Credit card tracking with fixed monthly total
+- [x] Installment tracking per card (informational, e.g. "Notebook 4/12")
+- [x] Monthly services tracking (luz, gas, internet, etc.)
+- [x] Upcoming due dates sorted by proximity
+- [x] Collapsible sidebar navigation
+- [x] Modal forms for adding data
+- [x] localStorage persistence
+## Pending / Roadmap
+ 
+- [ ] Edit and delete for tarjetas, servicios, cuotas
+- [ ] Servicio form and cuota form
+- [ ] Proximos vencimientos component
+- [ ] Responsive layout (mobile)
+- [ ] User login / authentication
+- [ ] Replace localStorage with backend API
+- [ ] `empresa` field in forms will become a `<select>` loaded from DB with company name + icon
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Notes
+ 
+- `monto` in `Tarjeta` is the fixed total from the bank statement — not calculated from cuotas
+- `cuotas` are informational only — they don't affect the card total
+- Modal state is managed centrally in `GastosService` via a `string | null` signal
+- Icons are optional (`icono?`) on all models — to be implemented visually later
