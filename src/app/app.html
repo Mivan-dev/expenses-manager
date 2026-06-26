@@ -6,6 +6,9 @@
       @if (gastosService.modalAbierto() === 'tarjeta'){
         <app-tarjeta-form/>
       }
+       @if (gastosService.modalAbierto() === 'cuota'){
+        <app-cuota-form/>
+      }
       <app-tarjetas />
       <!-- acá van los componentes de features -->
     </main>

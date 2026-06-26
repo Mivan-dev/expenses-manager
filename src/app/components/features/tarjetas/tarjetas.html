@@ -26,6 +26,9 @@
           <p>{{ cuota.monto  | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
         </div>
       }
+      <div class="">
+        <button class="bg-slate-600 text-white rounded-2xl px-2 py-1" (click)="gastosService.abrirModal('cuota', tarjeta.id)">+ Agregar cuota</button>
+      </div>
     </div>
   }
 </div>

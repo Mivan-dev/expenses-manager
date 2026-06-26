@@ -6,10 +6,11 @@ import { Tarjetas } from "./components/features/tarjetas/tarjetas";
 import { NgClass } from '@angular/common';
 import { GastosService } from './services/gastos';
 import { TarjetaForm } from "./components/features/tarjeta-form/tarjeta-form";
+import { CuotaForm } from "./components/features/cuota-form/cuota-form";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm],
+  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
