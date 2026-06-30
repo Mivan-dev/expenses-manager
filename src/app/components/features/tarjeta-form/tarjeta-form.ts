@@ -10,7 +10,19 @@ import { Tarjeta } from '../../../models/tarjeta.model';
   styleUrl: './tarjeta-form.css',
 })
 export class TarjetaForm {
-  gastosService = inject(GastosService)
+  constructor() {
+    const tarjeta = this.gastosService.tarjetaEditando();
+    if (tarjeta) {
+      this.form.patchValue({
+        nombre: tarjeta.nombre,
+        empresa: tarjeta.empresa,
+        monto: String(tarjeta.monto),
+        vencimiento: tarjeta.vencimiento,
+      });
+    }
+  }
+
+  gastosService = inject(GastosService);
   fb = inject(FormBuilder);
 
   form = this.fb.group({
@@ -21,22 +33,35 @@ export class TarjetaForm {
     vencimiento: ['', Validators.required],
   });
 
-  onSubmit(){
-    if (this.form.valid){
-      const nuevaTarjeta = {
-        id: crypto.randomUUID(),
-        //...this.form.value - No se puede usar por que monto es pasado como string no number
-        nombre: this.form.value.nombre!,
-        empresa: this.form.value.empresa!,
-        icono: this.form.value.icono ?? '',
-        monto: Number(this.form.value.monto),
-        vencimiento: this.form.value.vencimiento!,
-        cuotas: []
+  onSubmit() {
+    const tarjetaEditando = this.gastosService.tarjetaEditando();
+    if (this.form.valid) {
+      if (tarjetaEditando) {
+        const editandoTarjeta = {
+          id: tarjetaEditando.id,
+          nombre: this.form.value.nombre!,
+          empresa: this.form.value.empresa!,
+          icono: this.form.value.icono ?? '',
+          monto: Number(this.form.value.monto),
+          vencimiento: this.form.value.vencimiento!,
+          cuotas: tarjetaEditando.cuotas,
+        };
+        this.gastosService.editarTarjeta(editandoTarjeta as Tarjeta);
+      } else {
+        const nuevaTarjeta = {
+          id: crypto.randomUUID(),
+          nombre: this.form.value.nombre!,
+          empresa: this.form.value.empresa!,
+          icono: this.form.value.icono ?? '',
+          monto: Number(this.form.value.monto),
+          vencimiento: this.form.value.vencimiento!,
+          cuotas: [],
+        };
+        this.gastosService.agregarTarjeta(nuevaTarjeta as Tarjeta);
       }
-      this.gastosService.agregarTarjeta(nuevaTarjeta as Tarjeta);
+
       this.gastosService.cerrarModal();
-      this.form.reset()
+      this.form.reset();
     }
   }
-
 }
