@@ -3,6 +3,14 @@
     <div
       class="flex flex-col rounded-xl overflow-hidden shadow hover:shadow-md max-w-sm bg-gray-100 h-auto gap-4 p-4"
     >
+        <div class="flex flex-row justify-end gap-4">
+          <button class="cursor-pointer" (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)">
+            <ng-icon name="heroPencil" class="w-4 h-4" />
+          </button>
+          <button class="cursor-pointer" (click)="gastosService.eliminarTarjeta(tarjeta.id)">
+          <ng-icon name="heroTrash" class="w-4 h-4" />
+        </button>
+        </div>
       <div class="pl-3 p-3 flex justify-between">
         <p class="text-base mb-2 font-bold truncate">{{ tarjeta.nombre }}</p>
         <h2 class="text-2xl font-bold">
@@ -18,16 +26,21 @@
           Vencimiento: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
         </div>
       </div>
-      <hr class="border-gray-300">
+      <hr class="border-gray-300" />
       @for (cuota of tarjeta.cuotas; track cuota.id) {
         <div class="flex justify-between">
-          <p>{{cuota.nombre}}</p>
-          <p>{{cuota.cuotaActual}}/{{cuota.cuotaTotal}}</p>
-          <p>{{ cuota.monto  | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
+          <p>{{ cuota.nombre }}</p>
+          <p>{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
+          <p>{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
         </div>
       }
       <div class="">
-        <button class="bg-lime-700 text-white rounded-2xl px-2 py-1" (click)="gastosService.abrirModal('cuota', tarjeta.id)">+ Agregar cuota</button>
+        <button
+          class="bg-lime-700 text-white rounded-2xl px-2 py-1"
+          (click)="gastosService.abrirModal('cuota', tarjeta.id)"
+        >
+          + Agregar cuota
+        </button>
       </div>
     </div>
   }
