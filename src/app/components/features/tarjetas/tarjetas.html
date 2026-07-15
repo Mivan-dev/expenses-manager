@@ -1,7 +1,7 @@
 <div class="grid grid-cols-3 gap-4 items-start">
   @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
     <div
-      class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4"
+      class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4 md:w-80"
     >
       <div class="flex flex-row justify-end gap-4">
         <button
@@ -14,34 +14,35 @@
           <ng-icon name="heroTrash" class="w-4 h-4" />
         </button>
       </div>
-      <div class="pl-3 p-3 flex justify-between">
-        <p class="text-base mb-2 font-bold truncate">{{ tarjeta.nombre }}</p>
+      <div class="p-2 flex items-center justify-between">
+        <p class="text-lg text-center font-bold">{{ tarjeta.nombre }}</p>
         <h2 class="text-2xl font-bold">
           {{ tarjeta.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
         </h2>
       </div>
-      <div class="flex justify-between text-xs text-primary mb-2 px-4">
-        <a class="flex items-center">
+      <div class="flex justify-between text-xs p-2">
+        <a class="flex flex-row justify-between items-center">
           <img src="/iconos/barito.jpg" class="rounded-full h-8 w-8 mr-2 object-cover" />
           <span class="font-bold tracking-wide text-sm text-gray-700">{{ tarjeta.empresa }}</span>
         </a>
-        <div class="text-sm tracking-wider text-right">
-          Vencimiento: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
+        <div class="text-sm tracking-tight text-right text-emerald-900">
+          Vence: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
         </div>
       </div>
       <hr class="border-gray-300" />
       @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="flex flex-row grid-cols-3 gap-8">
-          <p>{{ cuota.nombre }}</p>
-          <p>{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
-          <p>{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
+        <div class="flex flex-row grid-cols-3 justify-between gap-8 font-bold tracking-tight text-sm text-gray-800">
+          <p class="w-24">{{ cuota.nombre }}</p>
+          <p class="w-12">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
+          <p class="w-12">{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
         </div>
       }
+      <hr class="border-gray-300" />
       <div class="">
-        <button class="border rounded-2xl px-2 py-2 cursor-pointer w-42 border-slate-700 hover:bg-teal-500 hover:text-white hover:border-teal-500" (click)="gastosService.abrirModal('cuota', tarjeta.id)">
-          <div class="flex items-center justify-center text-start gap-4">
+        <button class="border rounded-2xl p-1 cursor-pointer border-slate-500" (click)="gastosService.abrirModal('cuota', tarjeta.id)">
+          <div class="flex items-center justify-center gap-1">
             <ng-icon name="heroPlus" class="w-1/4" />
-            <span class="w-3/4">Agregar Cuota</span>
+            <span class="w-3/4 font-bold text-sm text-slate-800">Cuota</span>
           </div>
         </button>
       </div>
