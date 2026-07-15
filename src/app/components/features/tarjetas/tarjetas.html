@@ -31,7 +31,7 @@
       </div>
       <hr class="border-gray-300" />
       @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="flex justify-between">
+        <div class="flex flex-row grid-cols-3 gap-8">
           <p>{{ cuota.nombre }}</p>
           <p>{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
           <p>{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
