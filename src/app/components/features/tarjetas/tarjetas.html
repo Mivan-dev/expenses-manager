@@ -1,16 +1,19 @@
 <div class="grid grid-cols-3 gap-4 items-start">
   @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
     <div
-      class="flex flex-col rounded-xl overflow-hidden shadow hover:shadow-md max-w-sm bg-gray-100 h-auto gap-4 p-4"
+      class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4"
     >
-        <div class="flex flex-row justify-end gap-4">
-          <button class="cursor-pointer" (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)">
-            <ng-icon name="heroPencil" class="w-4 h-4" />
-          </button>
-          <button class="cursor-pointer" (click)="gastosService.eliminarTarjeta(tarjeta.id)">
+      <div class="flex flex-row justify-end gap-4">
+        <button
+          class="cursor-pointer"
+          (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)"
+        >
+          <ng-icon name="heroPencil" class="w-4 h-4" />
+        </button>
+        <button class="cursor-pointer" (click)="gastosService.eliminarTarjeta(tarjeta.id)">
           <ng-icon name="heroTrash" class="w-4 h-4" />
         </button>
-        </div>
+      </div>
       <div class="pl-3 p-3 flex justify-between">
         <p class="text-base mb-2 font-bold truncate">{{ tarjeta.nombre }}</p>
         <h2 class="text-2xl font-bold">
@@ -35,11 +38,11 @@
         </div>
       }
       <div class="">
-        <button
-          class="bg-lime-700 text-white rounded-2xl px-2 py-1"
-          (click)="gastosService.abrirModal('cuota', tarjeta.id)"
-        >
-          + Agregar cuota
+        <button class="border rounded-2xl px-2 py-2 cursor-pointer w-42 border-slate-700 hover:bg-teal-500 hover:text-white hover:border-teal-500" (click)="gastosService.abrirModal('cuota', tarjeta.id)">
+          <div class="flex items-center justify-center text-start gap-4">
+            <ng-icon name="heroPlus" class="w-1/4" />
+            <span class="w-3/4">Agregar Cuota</span>
+          </div>
         </button>
       </div>
     </div>
