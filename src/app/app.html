@@ -1,18 +1,18 @@
 <div class="flex">
-    <div class="h-screen bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
-    <app-nav (expandedChange)="onNavToggle($event)"/>
+  <div class="h-screen bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
+    <app-nav (expandedChange)="onNavToggle($event)" />
   </div>
-    <main class="flex text-center p-8">
-      @if (gastosService.modalAbierto() === 'tarjeta'){
-        <app-tarjeta-form/>
-      }
-      @if (gastosService.modalAbierto() === 'editarTarjeta'){
-        <app-tarjeta-form/>
-      }
-      @if (gastosService.modalAbierto() === 'cuota'){
-        <app-cuota-form/>
-      }
-      <app-tarjetas />
-    </main>
-  </div>
-  <app-footer />
+  <main class="flex text-center p-8">
+    @if (gastosService.modalAbierto() === 'tarjeta') {
+      <app-tarjeta-form />
+    }
+    @if (gastosService.modalAbierto() === 'editarTarjeta') {
+      <app-tarjeta-form />
+    }
+    @if (gastosService.modalAbierto() === 'cuota') {
+      <app-cuota-form />
+    }
+    <app-tarjetas />
+  </main>
+</div>
+<app-footer />
