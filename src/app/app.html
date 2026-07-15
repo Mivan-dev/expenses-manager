@@ -1,5 +1,5 @@
 <div class="flex">
-    <div class="h-screen bg-linear-95 from-lime-300 to-emerald-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-64' : 'w-16'">
+    <div class="h-screen bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
     <app-nav (expandedChange)="onNavToggle($event)"/>
   </div>
     <main class="flex text-center p-8">
@@ -14,5 +14,5 @@
       }
       <app-tarjetas />
     </main>
-</div>
-<app-footer />
+  </div>
+  <app-footer />
