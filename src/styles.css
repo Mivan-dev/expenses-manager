@@ -24,5 +24,11 @@ body {
 } */
 
 .navbutton {
-  @apply rounded-2xl px-2 py-2 bg-teal-600 text-white hover:bg-teal-500 cursor-pointer
+  @apply rounded-xl px-2 py-1 text-white hover:bg-teal-700 cursor-pointer
 }
+
+/* CSS HEX */
+/* --prussian-blue: #0f172aff;
+--air-force-blue: #6a8d92ff;
+--muted-teal: #80b192ff;
+--light-green: #a1e887ff; */
