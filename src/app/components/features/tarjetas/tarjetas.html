@@ -31,10 +31,10 @@
       </div>
       <hr class="border-gray-300" />
       @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="flex flex-row grid-cols-3 justify-between gap-8 font-bold tracking-tight text-sm text-gray-800">
-          <p class="w-24">{{ cuota.nombre }}</p>
-          <p class="w-12">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
-          <p class="w-12">{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
+        <div class="grid grid-cols-3 text-sm tracking-tight text-gray-800">
+          <p class="truncate">{{ cuota.nombre }}</p>
+          <p class="text-center">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
+          <p class="text-right">{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
         </div>
       }
       <hr class="border-gray-300" />
