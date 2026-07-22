@@ -2,12 +2,34 @@
   <div class="bg-slate-900 rounded-2xl p-8 w-full max-w-md">
     <h4 class="pb-6 font-bold text-xl">Tarjeta</h4>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" action="" class="flex flex-col gap-4">
-      <input type="text" formControlName="nombre" placeholder="Nombre: Tarjeta Naranja" class="modalForm" />
-      <input type="text" formControlName="empresa" placeholder="Empresa: NaranjaX" class="modalForm"/>
-      <input type="text" formControlName="monto" placeholder="Monto: $210000" class="modalForm"/>
-      <input type="text" formControlName="vencimiento" placeholder="Vencimiento: 10/07/2026" class="modalForm"/>
-      <button type="submit" class="bg-teal-600 py-1.5 rounded-lg cursor-pointer hover:bg-teal-500">Cargar Tarjeta</button>
-      <button (click)="gastosService.cerrarModal()" class="bg-gray-500 py-1.5 rounded-lg cursor-pointer hover:bg-slate-400">Cancelar</button>
+      <input
+        type="text"
+        formControlName="nombre"
+        placeholder="Nombre: Tarjeta Naranja"
+        class="modalForm"
+      />
+      <input
+        type="text"
+        formControlName="empresa"
+        placeholder="Empresa: NaranjaX"
+        class="modalForm"
+      />
+      <input type="text" formControlName="monto" placeholder="Monto: $210000" class="modalForm" />
+      <input
+        type="text"
+        formControlName="vencimiento"
+        placeholder="Vencimiento: 10/07/2026"
+        class="modalForm"
+      />
+      <button type="submit" class="bg-teal-600 py-1.5 rounded-lg cursor-pointer hover:bg-teal-500">
+        Cargar Tarjeta
+      </button>
+      <button
+        (click)="gastosService.cerrarModal()"
+        class="bg-gray-500 py-1.5 rounded-lg cursor-pointer hover:bg-slate-400"
+      >
+        Cancelar
+      </button>
     </form>
   </div>
 </div>
