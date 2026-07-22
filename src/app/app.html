@@ -12,6 +12,9 @@
     @if (gastosService.modalAbierto() === 'cuota') {
       <app-cuota-form />
     }
+    @if (gastosService.modalAbierto() === 'confirmar'){
+      <app-confirm-modal />
+    }
     <app-tarjetas />
   </main>
 </div>
