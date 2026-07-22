@@ -12,15 +12,17 @@ export class GastosService {
   modalAbierto = signal<string | null>(null);
   tarjetaSeleccionada = signal<string | null>(null);
   tarjetaEditando = signal<Tarjeta | null>(null);
+  cuota = signal<string | null>(null)
 
   constructor() {
     this.loadData();
   }
 
-  public abrirModal(tipo: string, id?: string, tarjeta?: Tarjeta) {
+  public abrirModal(tipo: string, id?: string, tarjeta?: Tarjeta, cuota?: string) {
     this.modalAbierto.set(tipo);
     this.tarjetaSeleccionada.set(id ?? null);
     this.tarjetaEditando.set(tarjeta ?? null);
+    this.cuota.set(cuota ?? null)
   }
 
   public cerrarModal() {
