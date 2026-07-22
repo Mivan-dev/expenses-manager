@@ -10,7 +10,7 @@
         >
           <ng-icon name="heroPencil" class="w-4 h-4" />
         </button>
-        <button class="cursor-pointer" (click)="gastosService.eliminarTarjeta(tarjeta.id)">
+        <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmar', tarjeta.id)">
           <ng-icon name="heroTrash" class="w-4 h-4" />
         </button>
       </div>
@@ -31,10 +31,13 @@
       </div>
       <hr class="border-gray-300" />
       @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="grid grid-cols-3 text-sm tracking-tight text-gray-800">
+        <div class="grid grid-cols-4 text-sm tracking-tight text-gray-800">
           <p class="truncate">{{ cuota.nombre }}</p>
           <p class="text-center">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
           <p class="text-right">{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
+          <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)">
+          <ng-icon name="heroTrash" class="w-4 h-4" />
+        </button>
         </div>
       }
       <hr class="border-gray-300" />
