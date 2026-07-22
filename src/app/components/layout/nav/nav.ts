@@ -19,9 +19,5 @@ export class Nav {
     this.expandedChange.emit(this.isExpanded());
   }
 
-  abrirModal() {
-    this.gastosService.abrirModal('tarjeta');
-  }
-
   @Output() expandedChange = new EventEmitter<boolean>();
 }

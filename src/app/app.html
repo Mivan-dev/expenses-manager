@@ -6,6 +6,9 @@
     @if (gastosService.modalAbierto() === 'tarjeta') {
       <app-tarjeta-form />
     }
+    @if (gastosService.modalAbierto() === 'servicio') {
+      <app-servicio-form />
+    }
     @if (gastosService.modalAbierto() === 'editarTarjeta') {
       <app-tarjeta-form />
     }
