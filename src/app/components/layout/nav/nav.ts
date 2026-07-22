@@ -11,7 +11,7 @@ import { heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStar
   styleUrl: './nav.css',
 })
 export class Nav {
-  modal = inject(GastosService);
+  gastosService = inject(GastosService);
   isExpanded = signal<boolean>(true);
 
   toggle() {
@@ -20,7 +20,7 @@ export class Nav {
   }
 
   abrirModal() {
-    this.modal.abrirModal('tarjeta');
+    this.gastosService.abrirModal('tarjeta');
   }
 
   @Output() expandedChange = new EventEmitter<boolean>();
