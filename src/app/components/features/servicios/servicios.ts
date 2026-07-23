@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { GastosService } from '../../../services/gastos';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeEsAR from '@angular/common/locales/es-AR';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroTrash, heroPencil, heroPlus } from '@ng-icons/heroicons/outline';
+
+registerLocaleData(localeEsAR);
 
 @Component({
   selector: 'app-servicios',
-  imports: [],
+  imports: [CurrencyPipe, DatePipe, NgIconComponent],
+  providers: [provideIcons({ heroTrash, heroPencil, heroPlus })],
   templateUrl: './servicios.html',
   styleUrl: './servicios.css',
 })
 export class Servicios {
-
+  gastosService = inject(GastosService);
 }

@@ -1,1 +1,39 @@
-<p>servicios works!</p>
+<div class="grid md:grid-cols-3 2xl:grid-cols-4 gap-4 items-start">
+  @for (servicio of gastosService.servicio(); track servicio.id) {
+    <div class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4 md:w-80">
+
+        <div class="flex flex-row gap-4 justify-between">
+         <div class="flex gap-8 items-center justify-center">
+             <p class="text-lg text-center font-bold">{{ servicio.nombre }}</p>
+          <h2 class="text-2xl font-bold">
+            {{ servicio.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+          </h2>
+         </div>
+          <div class="flex gap-2">
+            <button
+            class="cursor-pointer"
+            (click)="gastosService.abrirModal('editarServicio', servicio.id, undefined, undefined, servicio)"
+          >
+            <ng-icon name="heroPencil" class="w-4 h-4" />
+          </button>
+          <button
+            class="cursor-pointer"
+            (click)="gastosService.abrirModal('confirmarServicio', servicio.id)"
+          >
+            <ng-icon name="heroTrash" class="w-4 h-4" />
+          </button>
+          </div>
+        </div>
+
+      <div class="flex justify-between text-xs p-2">
+        <a class="flex flex-row justify-between items-center">
+          <img src="/iconos/barito.jpg" class="rounded-full h-8 w-8 mr-2 object-cover" />
+          <span class="font-bold tracking-wide text-sm text-gray-700">{{ servicio.empresa }}</span>
+        </a>
+        <div class="text-sm tracking-tight text-right text-emerald-900">
+          <p>Vence {{ servicio.vencimiento | date: 'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  }
+</div>
