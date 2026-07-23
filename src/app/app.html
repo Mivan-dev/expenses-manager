@@ -2,7 +2,7 @@
   <div class="h-screen bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
     <app-nav (expandedChange)="onNavToggle($event)" />
   </div>
-  <main class="flex text-center p-8">
+  <main class="flex flex-col text-center p-8 2xl:gap-32 md:gap-8">
     @if (gastosService.modalAbierto() === 'tarjeta') {
       <app-tarjeta-form />
     }
@@ -12,13 +12,20 @@
     @if (gastosService.modalAbierto() === 'editarTarjeta') {
       <app-tarjeta-form />
     }
+    @if (gastosService.modalAbierto() === 'editarServicio') {
+      <app-servicio-form />
+    }
     @if (gastosService.modalAbierto() === 'cuota') {
       <app-cuota-form />
     }
-    @if (gastosService.modalAbierto() === 'confirmar'){
+    @if (gastosService.modalAbierto() === 'confirmarTarjeta'){
+      <app-confirm-modal />
+    }
+    @if (gastosService.modalAbierto() === 'confirmarServicio'){
       <app-confirm-modal />
     }
     <app-tarjetas />
+    <app-servicios />
   </main>
 </div>
 <app-footer />

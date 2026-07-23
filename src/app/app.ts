@@ -9,10 +9,11 @@ import { TarjetaForm } from "./components/features/tarjeta-form/tarjeta-form";
 import { CuotaForm } from "./components/features/cuota-form/cuota-form";
 import { ConfirmModal } from './components/features/confirm-modal/confirm-modal';
 import { ServicioForm } from './components/features/servicio-form/servicio-form';
+import { Servicios } from './components/features/servicios/servicios';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm],
+  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
