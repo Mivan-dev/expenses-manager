@@ -1,8 +1,6 @@
-<div class="grid grid-cols-3 gap-4 items-start">
+<div class="grid md:grid-cols-3 2xl:grid-cols-4 gap-4 items-start">
   @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
-    <div
-      class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4 md:w-80"
-    >
+    <div class="flex flex-col rounded-xl bg-gray-100 h-auto gap-4 p-4 md:w-80">
       <div class="flex flex-row justify-end gap-4">
         <button
           class="cursor-pointer"
@@ -10,7 +8,7 @@
         >
           <ng-icon name="heroPencil" class="w-4 h-4" />
         </button>
-        <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmar', tarjeta.id)">
+        <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmarTarjeta', tarjeta.id)">
           <ng-icon name="heroTrash" class="w-4 h-4" />
         </button>
       </div>
@@ -34,15 +32,23 @@
         <div class="grid grid-cols-4 text-sm tracking-tight text-gray-800">
           <p class="truncate">{{ cuota.nombre }}</p>
           <p class="text-center">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
-          <p class="text-right">{{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</p>
-          <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)">
-          <ng-icon name="heroTrash" class="w-4 h-4" />
-        </button>
+          <p class="text-right">
+            {{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+          </p>
+          <button
+            class="cursor-pointer"
+            (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)"
+          >
+            <ng-icon name="heroTrash" class="w-4 h-4" />
+          </button>
         </div>
       }
       <hr class="border-gray-300" />
       <div class="">
-        <button class="border rounded-2xl p-1 cursor-pointer border-slate-500 hover:bg-slate-200" (click)="gastosService.abrirModal('cuota', tarjeta.id)">
+        <button
+          class="border rounded-2xl p-1 cursor-pointer border-slate-500 hover:bg-slate-200"
+          (click)="gastosService.abrirModal('cuota', tarjeta.id)"
+        >
           <div class="flex items-center justify-center gap-1">
             <ng-icon name="heroPlus" class="w-1/4" />
             <span class="w-3/4 font-bold text-sm text-slate-800">Cuota</span>
