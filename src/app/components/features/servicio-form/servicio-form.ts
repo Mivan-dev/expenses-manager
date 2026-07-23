@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { GastosService } from '../../../services/gastos';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { GastosService } from '../../../services/gastos';
 import {Servicio} from '../../../models/servicio.model';
 
 @Component({
@@ -10,21 +10,20 @@ import {Servicio} from '../../../models/servicio.model';
   styleUrl: './servicio-form.css',
 })
 export class ServicioForm {
-
   constructor() {
-    const servicio = this.gastosService.tarjetaEditando();
+    const servicio = this.gastosService.servicioEditando();
     if (servicio){
       this.form.patchValue({
         nombre: servicio.nombre,
         empresa: servicio.empresa,
         monto: String(servicio.monto),
-        vencimiento: servicio.vencimiento
-      })
+        vencimiento: servicio.vencimiento,
+      });
     }
   }
 
-  gastosService = inject(GastosService)
-  fb = inject(FormBuilder)
+  gastosService = inject(GastosService);
+  fb = inject(FormBuilder);
 
   form = this.fb.group({
     nombre: ['', Validators.required],
@@ -35,7 +34,7 @@ export class ServicioForm {
   })
 
   onSubmit(){
-    const servicioEditando = this.gastosService.tarjetaEditando();
+    const servicioEditando = this.gastosService.servicioEditando();
     if (this.form.valid){
       if(servicioEditando){
         const editandoServicio = {
@@ -44,7 +43,7 @@ export class ServicioForm {
           empresa: this.form.value.empresa!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
-          vencimiento: this.form.value.vencimiento!
+          vencimiento: this.form.value.vencimiento!,
         }
         this.gastosService.editarServicio(editandoServicio as Servicio)
       } else {
@@ -54,7 +53,7 @@ export class ServicioForm {
           empresa: this.form.value.empresa!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
-          vencimiento: this.form.value.vencimiento!
+          vencimiento: this.form.value.vencimiento!,
         }
         this.gastosService.agregarServicio(nuevoServicio as Servicio)
       }
