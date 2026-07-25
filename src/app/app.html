@@ -24,6 +24,9 @@
     @if (gastosService.modalAbierto() === 'confirmarServicio'){
       <app-confirm-modal />
     }
+    @if (gastosService.modalAbierto() === 'confirmar'){
+      <app-confirm-modal />
+    }
     <app-tarjetas />
     <app-servicios />
   </main>
