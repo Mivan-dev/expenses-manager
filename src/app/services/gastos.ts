@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
 import { Cuota } from '../models/cuota.model';
@@ -115,4 +115,11 @@ export class GastosService {
     this.tarjeta.set(newCuotas);
     this.saveData();
   }
+
+  public totalTarjetas = computed(() => this.tarjeta().reduce((sum, t) => sum + t.monto, 0))
+
+  public totalServicios = computed(() => this.servicio().reduce((sum, s) => sum + s.monto, 0))
+
+  public totalMensual = computed (() => this.totalTarjetas() + this.totalServicios())
+
 }
