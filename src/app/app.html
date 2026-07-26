@@ -1,8 +1,8 @@
 <div class="flex">
-  <div class="h-screen bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
+  <div class="h-auto bg-teal-900 rounded-r-2xl" [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'">
     <app-nav (expandedChange)="onNavToggle($event)" />
   </div>
-  <main class="flex flex-col text-center p-8 md:gap-4">
+  <main class="flex flex-col p-8 md:gap-4">
     <div class="flex bg-red-200 justify-center p-3 pr-8 rounded-lg">
         <p class="font-bold tracking-wide text-lg">Total Mensual {{gastosService.totalMensual() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'}} </p>
     </div>
