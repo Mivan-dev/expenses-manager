@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Nav } from "./components/layout/nav/nav";
 import { Footer } from "./components/layout/footer/footer";
 import { Tarjetas } from "./components/features/tarjetas/tarjetas";
-import { NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 import { GastosService } from './services/gastos';
 import { TarjetaForm } from "./components/features/tarjeta-form/tarjeta-form";
 import { CuotaForm } from "./components/features/cuota-form/cuota-form";
@@ -13,7 +13,7 @@ import { Servicios } from './components/features/servicios/servicios';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios],
+  imports: [RouterOutlet, Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios, CurrencyPipe],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
