@@ -20,6 +20,7 @@ export class CuotaForm {
     cuotaActual: ['', Validators.required],
     cuotaTotal: ['', Validators.required],
     monto: ['', Validators.required],
+    fechaCarga: ['']
   });
 
   onSubmit() {
@@ -31,6 +32,7 @@ export class CuotaForm {
         cuotaActual: Number(this.form.value.cuotaActual),
         cuotaTotal: Number(this.form.value.cuotaTotal),
         monto: Number(this.form.value.monto),
+        fechaCarga: new Date().toISOString().split('T')[0]
       };
       if (this.idTarjeta) {
         this.gastosService.agregarCuota(
