@@ -18,6 +18,7 @@ export class CuotaForm {
     nombre: ['', Validators.required],
     icono: [''],
     cuotaActual: ['', Validators.required],
+    cuotaBase: [''],
     cuotaTotal: ['', Validators.required],
     monto: ['', Validators.required],
     fechaCarga: ['']
@@ -30,6 +31,7 @@ export class CuotaForm {
         nombre: this.form.value.nombre!,
         icono: this.form.value.icono ?? '',
         cuotaActual: Number(this.form.value.cuotaActual),
+        cuotaBase: Number(this.form.value.cuotaActual),
         cuotaTotal: Number(this.form.value.cuotaTotal),
         monto: Number(this.form.value.monto),
         fechaCarga: new Date().toISOString().split('T')[0]
