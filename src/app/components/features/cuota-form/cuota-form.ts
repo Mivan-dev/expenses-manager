@@ -18,10 +18,8 @@ export class CuotaForm {
     nombre: ['', Validators.required],
     icono: [''],
     cuotaActual: ['', Validators.required],
-    cuotaBase: [''],
     cuotaTotal: ['', Validators.required],
     monto: ['', Validators.required],
-    fechaCarga: ['']
   });
 
   onSubmit() {

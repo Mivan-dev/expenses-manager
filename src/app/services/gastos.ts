@@ -122,4 +122,6 @@ export class GastosService {
 
   public totalMensual = computed (() => this.totalTarjetas() + this.totalServicios())
 
+  public actualizarCuotas(){}
+
 }
