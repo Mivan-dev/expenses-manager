@@ -122,6 +122,14 @@ export class GastosService {
 
   public totalMensual = computed (() => this.totalTarjetas() + this.totalServicios())
 
-  public actualizarCuotas(){}
+  public actualizarCuotas(tarjetaId: string, cuota: Cuota){
+    const hoy = new Date();
+    const inicio = new Date(cuota.fechaCarga);
+    const meses = (hoy.getFullYear() - inicio.getFullYear()) * 12 + (hoy.getMonth() - inicio.getMonth());
+    const cuotaActual = cuota.cuotaBase + meses;
+    if (cuotaActual >= cuota.cuotaTotal){
+      // eliminarCuota()
+    }
+  }
 
 }
