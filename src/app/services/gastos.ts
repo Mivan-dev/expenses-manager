@@ -128,7 +128,6 @@ export class GastosService {
     const meses = (hoy.getFullYear() - inicio.getFullYear()) * 12 + (hoy.getMonth() - inicio.getMonth());
     const cuotaActual = cuota.cuotaBase + meses;
     if (cuotaActual >= cuota.cuotaTotal){
-      // eliminarCuota()
     }
   }
 
