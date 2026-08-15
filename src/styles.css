@@ -31,6 +31,10 @@ body {
   @apply border rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 italic tracking-tight bg-slate-800;
 }
 
+.cuotaTerminada {
+  @apply line-through text-gray-500 bg-slate-100 ;
+}
+
 /* CSS HEX */
 /* --prussian-blue: #0f172aff;
 --air-force-blue: #6a8d92ff;

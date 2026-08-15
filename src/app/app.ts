@@ -20,6 +20,10 @@ import { Servicios } from './components/features/servicios/servicios';
 export class App {
   protected readonly title = signal('expenses-manager');
 
+  constructor(){
+    this.gastosService.actualizarCuotas();
+  }
+
   isNavExpanded = signal<boolean>(true)
   gastosService = inject(GastosService)
 
