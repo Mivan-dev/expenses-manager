@@ -122,13 +122,22 @@ export class GastosService {
 
   public totalMensual = computed (() => this.totalTarjetas() + this.totalServicios())
 
-  public actualizarCuotas(tarjetaId: string, cuota: Cuota){
-    const hoy = new Date();
-    const inicio = new Date(cuota.fechaCarga);
-    const meses = (hoy.getFullYear() - inicio.getFullYear()) * 12 + (hoy.getMonth() - inicio.getMonth());
-    const cuotaActual = cuota.cuotaBase + meses;
-    if (cuotaActual >= cuota.cuotaTotal){
-    }
+  public actualizarCuotas(){
+    const tarjetasActualizadas = this.tarjeta().map(t => ({
+      ...t,
+      cuotas: t.cuotas.map(c => {
+        const hoy = new Date();
+        const inicio = new Date(c.fechaCarga)
+        const meses = (hoy.getFullYear() - inicio.getFullYear()) *12 + (hoy.getMonth() - inicio.getMonth());
+        const nuevaCuotaActual = (c.cuotaBase || c.cuotaActual) + meses
+        return {
+          ...c,
+          cuotaActual: Math.min(nuevaCuotaActual, c.cuotaTotal)
+        }
+      })
+    }));
+    this.tarjeta.set(tarjetasActualizadas);
+    this.saveData();
   }
 
 }
