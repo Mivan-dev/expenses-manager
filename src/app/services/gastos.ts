@@ -2,6 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
 import { Cuota } from '../models/cuota.model';
+import { ProximosVtos } from '../components/features/proximos-vtos/proximos-vtos';
 
 @Injectable({
   providedIn: 'root',
@@ -139,5 +140,25 @@ export class GastosService {
     this.tarjeta.set(tarjetasActualizadas);
     this.saveData();
   }
+
+  ProximosVtos = computed (() => {
+    const hoy = new Date();
+    const tarjetas = this.tarjeta().map(t => ({
+      nombre: t.nombre,
+      monto: t.monto,
+      fecha: new Date(t.vencimiento + 'T00:00:00'),
+      tipo: 'tarjeta'
+    }))
+    const servicios = this.servicio().map(s => ({
+      nombre: s.nombre,
+      monto: s.monto,
+      fecha: new Date(s.vencimiento + 'T00:00:00'),
+      tipo: 'servicio'
+    }))
+    return [...tarjetas, ...servicios]
+    .filter(item => item.fecha > hoy)
+    .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
+    .slice(0, 5)
+  })
 
 }
