@@ -1,1 +1,21 @@
-<p>proximos-vtos works!</p>
+<div class="flex flex-col gap-1.5">
+  @for (vencimiento of gastosService.ProximosVtos(); track $index) {
+    <div class="flex items-center justify-around bg-gray-100 rounded-xl px-4 py-3 gap-4">
+      <span
+        class="text-sm font-bold w-32"
+        [class.text-red-500]="diasFaltantes(vencimiento.fecha) <= 3"
+        [class.text-emerald-700]="diasFaltantes(vencimiento.fecha) > 3"
+      >
+        {{ diasFaltantes(vencimiento.fecha) }} días para vto.
+      </span>
+
+      <p class="flex-1 text-sm font-semibold truncate">{{ vencimiento.nombre }}</p>
+
+      <span class="text-sm text-gray-500 tracking-tighter">{{ vencimiento.fecha | date: 'dd/MM/yyyy' }}</span>
+
+      <p class="text-sm font-bold w-32 text-right">
+        {{ vencimiento.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+      </p>
+    </div>
+  }
+</div>
