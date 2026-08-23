@@ -2,7 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
 import { Cuota } from '../models/cuota.model';
-import { ProximosVtos } from '../components/features/proximos-vtos/proximos-vtos';
+
 
 @Injectable({
   providedIn: 'root',
