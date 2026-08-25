@@ -12,9 +12,9 @@ export class Auth {
   baseUrl: string = 'http://localhost:3000';
 
   logIn(data: { email: string; password: string }) {
-    this.httpClient.post<string>(this.baseUrl + '/auth/login', data).subscribe({
+    this.httpClient.post<{token: string}>(this.baseUrl + '/auth/login', data).subscribe({
       next: (respuesta) => {
-        localStorage.setItem('token', respuesta);
+        localStorage.setItem('token', respuesta.token);
         this.router.navigate(['/']);
       },
       error: (err) => {

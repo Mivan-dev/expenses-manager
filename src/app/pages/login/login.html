@@ -1,1 +1,12 @@
-<p>login works!</p>
+<div class="flex items-center justify-center h-screen text-white">
+  <div class="bg-slate-900 rounded-2xl p-8 w-full max-w-md">
+    <h4 class="pb-6 font-bold text-xl">LogIn</h4>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" action="" class="flex flex-col gap-4">
+      <input type="email" formControlName="email" placeholder="Email: ejemplo@email.com" class="modalForm" />
+      <input type="password" formControlName="password" placeholder="Contraseña" class="modalForm"/>
+      <button type="submit" class="bg-teal-600 py-1.5 rounded-lg cursor-pointer hover:bg-teal-500">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>
