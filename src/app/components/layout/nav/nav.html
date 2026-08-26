@@ -41,7 +41,7 @@
   </div>
 
   <div class="text-center p-4">
-    <button class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer">
+    <button class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer" (click)="auth.logOut()">
       <div class="flex items-center justify-around gap-4">
         <ng-icon name="heroArrowLeftStartOnRectangle" class="w-8 h-8" />
         <span [class.hidden]="!isExpanded()">Logout</span>
