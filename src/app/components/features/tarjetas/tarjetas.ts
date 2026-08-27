@@ -17,4 +17,8 @@ registerLocaleData(localeEsAR);
 })
 export class Tarjetas {
   gastosService = inject(GastosService);
+  
+  getEmpresa(empresaId: string){
+    return this.gastosService.empresa().find(item => item.id === empresaId)
+  }
 }

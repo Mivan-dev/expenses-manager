@@ -15,7 +15,7 @@ export class TarjetaForm {
     if (tarjeta) {
       this.form.patchValue({
         nombre: tarjeta.nombre,
-        empresa: tarjeta.empresa,
+        empresaId: tarjeta.empresaId,
         monto: String(tarjeta.monto),
         vencimiento: tarjeta.vencimiento,
       });
@@ -27,7 +27,7 @@ export class TarjetaForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    empresa: ['', Validators.required],
+    empresaId: ['', Validators.required],
     icono: [''],
     monto: ['', Validators.required],
     vencimiento: ['', Validators.required],
@@ -40,7 +40,7 @@ export class TarjetaForm {
         const editandoTarjeta = {
           id: tarjetaEditando.id,
           nombre: this.form.value.nombre!,
-          empresa: this.form.value.empresa!,
+          empresaId: this.form.value.empresaId!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
@@ -51,7 +51,7 @@ export class TarjetaForm {
         const nuevaTarjeta = {
           id: crypto.randomUUID(),
           nombre: this.form.value.nombre!,
-          empresa: this.form.value.empresa!,
+          empresaId: this.form.value.empresaId!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,

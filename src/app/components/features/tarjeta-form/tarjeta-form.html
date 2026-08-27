@@ -8,12 +8,11 @@
         placeholder="Nombre: Tarjeta Naranja"
         class="modalForm"
       />
-      <input
-        type="text"
-        formControlName="empresa"
-        placeholder="Empresa: NaranjaX"
-        class="modalForm"
-      />
+      <select formControlName="empresaId">
+        @for (empresa of gastosService.empresa(); track empresa.id){
+          <option [value]="empresa.id">{{empresa.nombre}}</option>
+        }
+      </select>
       <input type="text" formControlName="monto" placeholder="Monto: $210000" class="modalForm" />
       <input
         type="date"
