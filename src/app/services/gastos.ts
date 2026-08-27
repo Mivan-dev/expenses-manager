@@ -1,13 +1,17 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
 import { Cuota } from '../models/cuota.model';
+import { EmpresaApi } from './empresa-api/empresa-api';
+import { Empresa } from '../models/empresa.model';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class GastosService {
+  empresaApi = inject(EmpresaApi)
+  empresa = signal<Empresa[]>([])
   tarjeta = signal<Tarjeta[]>([]);
   servicio = signal<Servicio[]>([]);
   modalAbierto = signal<string | null>(null);
@@ -18,6 +22,11 @@ export class GastosService {
 
   constructor() {
     this.loadData();
+    this.empresaApi.getAll().subscribe({
+      next: (respuesta) => {
+        this.empresa.set(respuesta)
+      }
+    })
   }
 
   public abrirModal(tipo: string, id?: string, tarjeta?: Tarjeta, cuota?: string, servicio?: Servicio) {
