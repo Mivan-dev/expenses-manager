@@ -3,7 +3,7 @@
     <h4 class="pb-6 font-bold text-xl">Servicio</h4>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" action="" class="flex flex-col gap-4">
       <input type="text" formControlName="nombre" placeholder="Luz" class="modalForm" />
-      <input type="text" formControlName="empresa" placeholder="EPEC" class="modalForm" />
+      <input type="text" formControlName="empresaId" placeholder="EPEC" class="modalForm" />
       <input type="text" formControlName="monto" placeholder="$28.000" class="modalForm" />
       <input type="date" formControlName="vencimiento" placeholder="19/03/2026" class="modalForm" />
       <button type="submit" class="bg-teal-600 py-1.5 rounded-lg cursor-pointer hover:bg-teal-500">

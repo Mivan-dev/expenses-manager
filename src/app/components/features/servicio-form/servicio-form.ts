@@ -15,7 +15,7 @@ export class ServicioForm {
     if (servicio){
       this.form.patchValue({
         nombre: servicio.nombre,
-        empresa: servicio.empresa,
+        empresaId: servicio.empresaId,
         monto: String(servicio.monto),
         vencimiento: servicio.vencimiento,
       });
@@ -27,7 +27,7 @@ export class ServicioForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    empresa: ['', Validators.required],
+    empresaId: ['', Validators.required],
     icono: [''],
     monto: ['', Validators.required],
     vencimiento: ['', Validators.required],
@@ -40,7 +40,7 @@ export class ServicioForm {
         const editandoServicio = {
           id: servicioEditando.id,
           nombre: this.form.value.nombre!,
-          empresa: this.form.value.empresa!,
+          empresaId: this.form.value.empresaId!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
@@ -50,7 +50,7 @@ export class ServicioForm {
         const nuevoServicio = {
           id: crypto.randomUUID(),
           nombre: this.form.value.nombre!,
-          empresa: this.form.value.empresa!,
+          empresaId: this.form.value.empresaId!,
           icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,

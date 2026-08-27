@@ -31,7 +31,7 @@
       <div class="flex justify-between text-xs p-2">
         <a class="flex flex-row justify-between items-center">
           <img src="/iconos/barito.jpg" class="rounded-full h-8 w-8 mr-2 object-cover" />
-          <span class="font-bold tracking-wide text-sm text-gray-700">{{ servicio.empresa }}</span>
+          <span class="font-bold tracking-wide text-sm text-gray-700">{{ getEmpresa(servicio.empresaId)?.nombre }}</span>
         </a>
         <div class="text-sm tracking-tight text-right text-emerald-900">
           <p>Vence {{ servicio.vencimiento | date: 'dd/MM/yyyy' }}</p>
