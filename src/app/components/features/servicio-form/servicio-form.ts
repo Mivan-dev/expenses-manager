@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { GastosService } from '../../../services/gastos';
-import {Servicio} from '../../../models/servicio.model';
+
 
 @Component({
   selector: 'app-servicio-form',
@@ -15,9 +15,9 @@ export class ServicioForm {
     if (servicio){
       this.form.patchValue({
         nombre: servicio.nombre,
-        empresaId: servicio.empresaId,
         monto: String(servicio.monto),
         vencimiento: servicio.vencimiento,
+        empresaId: servicio.empresaId
       });
     }
   }
@@ -27,10 +27,9 @@ export class ServicioForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    empresaId: ['', Validators.required],
-    icono: [''],
     monto: ['', Validators.required],
     vencimiento: ['', Validators.required],
+    empresaId: ['', Validators.required]
   })
 
   onSubmit(){
@@ -38,24 +37,20 @@ export class ServicioForm {
     if (this.form.valid){
       if(servicioEditando){
         const editandoServicio = {
-          id: servicioEditando.id,
           nombre: this.form.value.nombre!,
-          empresaId: this.form.value.empresaId!,
-          icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
+          empresaId: this.form.value.empresaId!
         }
-        this.gastosService.editarServicio(editandoServicio as Servicio)
+        this.gastosService.editarServicio(servicioEditando.id, editandoServicio)
       } else {
         const nuevoServicio = {
-          id: crypto.randomUUID(),
           nombre: this.form.value.nombre!,
-          empresaId: this.form.value.empresaId!,
-          icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
+          empresaId: this.form.value.empresaId!
         }
-        this.gastosService.agregarServicio(nuevoServicio as Servicio)
+        this.gastosService.agregarServicio(nuevoServicio)
       }
 
       this.gastosService.cerrarModal();
