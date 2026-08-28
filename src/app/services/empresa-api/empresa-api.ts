@@ -10,7 +10,6 @@ export class EmpresaApi {
   baseURL: string = 'http://localhost:3000';
 
   getAll(){
-    //Crear modelo de empresa antes
     return this.httpClient.get<Empresa[]>(this.baseURL+'/empresa')
   }
 
