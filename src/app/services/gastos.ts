@@ -6,6 +6,7 @@ import { EmpresaApi } from './empresa-api/empresa-api';
 import { Empresa } from '../models/empresa.model';
 import { TarjetaApi } from './tarjeta-api/tarjeta-api';
 import { ServicioApi } from './servicio-api/servicio-api';
+import { CuotaApi } from './cuota-api/cuota-api';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class GastosService {
   tarjetaEditando = signal<Tarjeta | null>(null);
   servicioEditando = signal<Servicio | null>(null);
   cuota = signal<string | null>(null);
+  cuotaApi = inject(CuotaApi)
 
   constructor() {
     this.loadData();
@@ -128,33 +130,50 @@ export class GastosService {
     })
   }
 
-  public agregarCuota(tarjetaId: string, cuota: Cuota) {
-    const dataTarjeta = this.tarjeta();
-    const cuotasTarjeta = dataTarjeta.map((t) =>
-      t.id === tarjetaId ? { ...t, cuotas: [...t.cuotas, cuota] } : t,
-    );
-    this.tarjeta.set(cuotasTarjeta);
-    this.saveData();
+  public agregarCuota(data: {
+      nombre: string;
+      cuotaActual: number;
+      cuotaBase: number;
+      cuotaTotal: number;
+      monto: number;
+      fechaCarga: string;
+      tarjetaId: string;
+    }) {
+      this.cuotaApi.create(data).subscribe({
+        next: (req) => {
+          const dataTarjeta = this.tarjeta();
+          const cuotasTarjeta = dataTarjeta.map((t) => t.id === data.tarjetaId ? {...t, cuotas: [...t.cuotas, req]}: t);
+          this.tarjeta.set(cuotasTarjeta);
+        }
+      })
   }
 
-  public editarCuota(tarjeta: Tarjeta, cuota: Cuota) {
-    const dataTarjeta = this.tarjeta();
-    const cuotasTarjeta = dataTarjeta.map((t) =>
-      t.id === tarjeta.id
-        ? { ...t, cuotas: t.cuotas.map((c) => (c.id === cuota.id ? cuota : c)) }
-        : t,
-    );
-    this.tarjeta.set(cuotasTarjeta);
-    this.saveData();
+  public editarCuota(id: string, data: {
+      nombre: string;
+      cuotaActual: number;
+      cuotaBase: number;
+      cuotaTotal: number;
+      monto: number;
+      fechaCarga: string;
+      tarjetaId: string;
+    }) {
+      this.cuotaApi.update(id, data).subscribe({
+        next: (req) => {
+          const dataTarjeta = this.tarjeta();
+          const cuotasTarjeta = dataTarjeta.map((t) => t.id === data.tarjetaId ? {...t, cuotas: t.cuotas.map((c) => (c.id === id ? req : c))}: t )
+          this.tarjeta.set(cuotasTarjeta);
+        }
+      })
   }
 
   public eliminarCuota(tarjetaId: string, cuotaId: string) {
-    const dataTarjeta = this.tarjeta();
-    const newCuotas = dataTarjeta.map((t) =>
-      t.id === tarjetaId ? { ...t, cuotas: t.cuotas.filter((c) => c.id !== cuotaId) } : t,
-    );
+    this.cuotaApi.delete(cuotaId).subscribe({
+      next: (req) => {
+        const dataTarjeta = this.tarjeta();
+        const newCuotas = dataTarjeta.map((t) => t.id === tarjetaId ? { ...t, cuotas: t.cuotas.filter((c) => c.id !== cuotaId) } : t,);
     this.tarjeta.set(newCuotas);
-    this.saveData();
+      }
+    })
   }
 
   public totalTarjetas = computed(() => this.tarjeta().reduce((sum, t) => sum + t.monto, 0));
