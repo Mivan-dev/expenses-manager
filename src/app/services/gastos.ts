@@ -4,37 +4,41 @@ import { Servicio } from '../models/servicio.model';
 import { Cuota } from '../models/cuota.model';
 import { EmpresaApi } from './empresa-api/empresa-api';
 import { Empresa } from '../models/empresa.model';
-
+import { TarjetaApi } from './tarjeta-api/tarjeta-api';
+import { ServicioApi } from './servicio-api/servicio-api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GastosService {
-  empresaApi = inject(EmpresaApi)
-  empresa = signal<Empresa[]>([])
+  empresaApi = inject(EmpresaApi);
+  empresa = signal<Empresa[]>([]);
+  tarjetaApi = inject(TarjetaApi);
   tarjeta = signal<Tarjeta[]>([]);
+  servicioApi = inject(ServicioApi)
   servicio = signal<Servicio[]>([]);
   modalAbierto = signal<string | null>(null);
   tarjetaSeleccionada = signal<string | null>(null);
   tarjetaEditando = signal<Tarjeta | null>(null);
-  servicioEditando = signal<Servicio | null>(null)
-  cuota = signal<string | null>(null)
+  servicioEditando = signal<Servicio | null>(null);
+  cuota = signal<string | null>(null);
 
   constructor() {
     this.loadData();
-    this.empresaApi.getAll().subscribe({
-      next: (respuesta) => {
-        this.empresa.set(respuesta)
-      }
-    })
   }
 
-  public abrirModal(tipo: string, id?: string, tarjeta?: Tarjeta, cuota?: string, servicio?: Servicio) {
+  public abrirModal(
+    tipo: string,
+    id?: string,
+    tarjeta?: Tarjeta,
+    cuota?: string,
+    servicio?: Servicio,
+  ) {
     this.modalAbierto.set(tipo);
     this.tarjetaSeleccionada.set(id ?? null);
     this.tarjetaEditando.set(tarjeta ?? null);
-    this.cuota.set(cuota ?? null)
-    this.servicioEditando.set(servicio ?? null)
+    this.cuota.set(cuota ?? null);
+    this.servicioEditando.set(servicio ?? null);
   }
 
   public cerrarModal() {
@@ -42,14 +46,21 @@ export class GastosService {
   }
 
   private loadData() {
-    const tarjetasData = localStorage.getItem('tarjetas');
-    const serviciosData = localStorage.getItem('servicios');
-    if (tarjetasData) {
-      this.tarjeta.set(JSON.parse(tarjetasData));
-    }
-    if (serviciosData) {
-      this.servicio.set(JSON.parse(serviciosData));
-    }
+    this.tarjetaApi.getAll().subscribe({
+      next: (req) => {
+        this.tarjeta.set(req);
+      },
+    });
+    this.empresaApi.getAll().subscribe({
+      next: (req) => {
+        this.empresa.set(req);
+      },
+    });
+    this.servicioApi.getAll().subscribe({
+      next: (req) => {
+        this.servicio.set(req);
+      },
+    });
   }
 
   private saveData() {
@@ -57,10 +68,14 @@ export class GastosService {
     localStorage.setItem('servicios', JSON.stringify(this.servicio()));
   }
 
-  public agregarTarjeta(tarjeta: Tarjeta) {
-    const tarjetas = this.tarjeta();
-    this.tarjeta.set([...tarjetas, tarjeta]);
-    this.saveData();
+  public agregarTarjeta(data: {nombre: string, monto: number, vencimiento: string, empresaId: string}) {
+    this.tarjetaApi.create(data).subscribe({
+      next: (req) => {
+        const tarjetaCompleta = {...req, cuotas:[]}
+        const tarjetas = this.tarjeta()
+        this.tarjeta.set([...tarjetas, tarjetaCompleta])
+      }
+    })
   }
 
   public editarTarjeta(tarjeta: Tarjeta) {
@@ -126,48 +141,48 @@ export class GastosService {
     this.saveData();
   }
 
-  public totalTarjetas = computed(() => this.tarjeta().reduce((sum, t) => sum + t.monto, 0))
+  public totalTarjetas = computed(() => this.tarjeta().reduce((sum, t) => sum + t.monto, 0));
 
-  public totalServicios = computed(() => this.servicio().reduce((sum, s) => sum + s.monto, 0))
+  public totalServicios = computed(() => this.servicio().reduce((sum, s) => sum + s.monto, 0));
 
-  public totalMensual = computed (() => this.totalTarjetas() + this.totalServicios())
+  public totalMensual = computed(() => this.totalTarjetas() + this.totalServicios());
 
-  public actualizarCuotas(){
-    const tarjetasActualizadas = this.tarjeta().map(t => ({
+  public actualizarCuotas() {
+    const tarjetasActualizadas = this.tarjeta().map((t) => ({
       ...t,
-      cuotas: t.cuotas.map(c => {
+      cuotas: t.cuotas.map((c) => {
         const hoy = new Date();
-        const inicio = new Date(c.fechaCarga)
-        const meses = (hoy.getFullYear() - inicio.getFullYear()) *12 + (hoy.getMonth() - inicio.getMonth());
-        const nuevaCuotaActual = (c.cuotaBase || c.cuotaActual) + meses
+        const inicio = new Date(c.fechaCarga);
+        const meses =
+          (hoy.getFullYear() - inicio.getFullYear()) * 12 + (hoy.getMonth() - inicio.getMonth());
+        const nuevaCuotaActual = (c.cuotaBase || c.cuotaActual) + meses;
         return {
           ...c,
-          cuotaActual: Math.min(nuevaCuotaActual, c.cuotaTotal)
-        }
-      })
+          cuotaActual: Math.min(nuevaCuotaActual, c.cuotaTotal),
+        };
+      }),
     }));
     this.tarjeta.set(tarjetasActualizadas);
     this.saveData();
   }
 
-  ProximosVtos = computed (() => {
+  ProximosVtos = computed(() => {
     const hoy = new Date();
-    const tarjetas = this.tarjeta().map(t => ({
+    const tarjetas = this.tarjeta().map((t) => ({
       nombre: t.nombre,
       monto: t.monto,
       fecha: new Date(t.vencimiento + 'T00:00:00'),
-      tipo: 'tarjeta'
-    }))
-    const servicios = this.servicio().map(s => ({
+      tipo: 'tarjeta',
+    }));
+    const servicios = this.servicio().map((s) => ({
       nombre: s.nombre,
       monto: s.monto,
       fecha: new Date(s.vencimiento + 'T00:00:00'),
-      tipo: 'servicio'
-    }))
+      tipo: 'servicio',
+    }));
     return [...tarjetas, ...servicios]
-    .filter(item => item.fecha > hoy)
-    .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
-    .slice(0, 5)
-  })
-
+      .filter((item) => item.fecha > hoy)
+      .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
+      .slice(0, 5);
+  });
 }
