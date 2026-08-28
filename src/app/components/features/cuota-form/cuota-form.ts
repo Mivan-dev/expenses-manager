@@ -16,7 +16,6 @@ export class CuotaForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    icono: [''],
     cuotaActual: ['', Validators.required],
     cuotaTotal: ['', Validators.required],
     monto: ['', Validators.required],
@@ -25,9 +24,7 @@ export class CuotaForm {
   onSubmit() {
     if (this.form.valid) {
       const nuevaCuota = {
-        id: crypto.randomUUID(),
         nombre: this.form.value.nombre!,
-        icono: this.form.value.icono ?? '',
         cuotaActual: Number(this.form.value.cuotaActual),
         cuotaBase: Number(this.form.value.cuotaActual),
         cuotaTotal: Number(this.form.value.cuotaTotal),
@@ -35,10 +32,8 @@ export class CuotaForm {
         fechaCarga: new Date().toISOString().split('T')[0]
       };
       if (this.idTarjeta) {
-        this.gastosService.agregarCuota(
-          this.idTarjeta!,
-          nuevaCuota as Cuota,
-        );
+        const dataCompleta = {...nuevaCuota, tarjetaId: this.idTarjeta}
+        this.gastosService.agregarCuota(dataCompleta);
       }
       this.gastosService.cerrarModal();
       this.form.reset();
