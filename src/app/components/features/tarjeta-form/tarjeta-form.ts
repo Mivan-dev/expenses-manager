@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GastosService } from '../../../services/gastos';
-import { Tarjeta } from '../../../models/tarjeta.model';
+
 
 @Component({
   selector: 'app-tarjeta-form',
@@ -27,10 +27,9 @@ export class TarjetaForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    empresaId: ['', Validators.required],
-    icono: [''],
     monto: ['', Validators.required],
     vencimiento: ['', Validators.required],
+    empresaId: ['', Validators.required]
   });
 
   onSubmit() {
@@ -38,26 +37,20 @@ export class TarjetaForm {
     if (this.form.valid) {
       if (tarjetaEditando) {
         const editandoTarjeta = {
-          id: tarjetaEditando.id,
           nombre: this.form.value.nombre!,
-          empresaId: this.form.value.empresaId!,
-          icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
-          cuotas: tarjetaEditando.cuotas,
+          empresaId: this.form.value.empresaId!,
         };
-        this.gastosService.editarTarjeta(editandoTarjeta as Tarjeta);
+        this.gastosService.editarTarjeta(tarjetaEditando.id, editandoTarjeta);
       } else {
         const nuevaTarjeta = {
-          id: crypto.randomUUID(),
           nombre: this.form.value.nombre!,
-          empresaId: this.form.value.empresaId!,
-          icono: this.form.value.icono ?? '',
           monto: Number(this.form.value.monto),
           vencimiento: this.form.value.vencimiento!,
-          cuotas: [],
+          empresaId: this.form.value.empresaId!,
         };
-        this.gastosService.agregarTarjeta(nuevaTarjeta as Tarjeta);
+        this.gastosService.agregarTarjeta(nuevaTarjeta);
       }
 
       this.gastosService.cerrarModal();
