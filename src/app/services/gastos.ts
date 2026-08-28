@@ -63,7 +63,7 @@ export class GastosService {
     });
   }
 
-  private saveData() {
+  private saveData() { //ELIMINAR ----------------------------------------------------------------------
     localStorage.setItem('tarjetas', JSON.stringify(this.tarjeta()));
     localStorage.setItem('servicios', JSON.stringify(this.servicio()));
   }
@@ -78,38 +78,54 @@ export class GastosService {
     })
   }
 
-  public editarTarjeta(tarjeta: Tarjeta) {
-    const tarjetas = this.tarjeta();
-    const newTarjetas = tarjetas.map((t) => (t.id === tarjeta.id ? tarjeta : t));
-    this.tarjeta.set(newTarjetas);
-    this.saveData();
+  public editarTarjeta(id: string, data: {nombre: string, monto: number, vencimiento: string, empresaId: string}) {
+    this.tarjetaApi.update(id, data).subscribe({
+      next: (req) => {
+        const tarjetas = this.tarjeta()
+        const newTarjetas = tarjetas.map((t) => (t.id === id ? req : t));
+        this.tarjeta.set(newTarjetas)
+      }
+    })
   }
 
   public eliminarTarjeta(id: string) {
-    const tarjetas = this.tarjeta();
-    const newTarjetas = tarjetas.filter((t) => t.id !== id);
-    this.tarjeta.set(newTarjetas);
-    this.saveData();
+    this.tarjetaApi.delete(id).subscribe({
+      next: (req) => {
+        const tarjetas = this.tarjeta();
+        const newTarjetas = tarjetas.filter((t) => t.id !== id);
+        this.tarjeta.set(newTarjetas);
+      }
+    })
+    
   }
 
-  public agregarServicio(servicio: Servicio) {
-    const servicios = this.servicio();
-    this.servicio.set([...servicios, servicio]);
-    this.saveData();
+  public agregarServicio(data: {nombre: string, empresaId: string, monto: number, vencimiento: string}) {
+    this.servicioApi.create(data).subscribe({
+      next: (req) => {
+        const servicios = this.servicio();
+        this.servicio.set([...servicios, req]);
+      }
+    })
   }
 
-  public editarServicio(servicio: Servicio) {
-    const servicios = this.servicio();
-    const newServicios = servicios.map((s) => (s.id === servicio.id ? servicio : s));
-    this.servicio.set(newServicios);
-    this.saveData();
+  public editarServicio(id: string, data: {nombre: string, empresaId: string, monto: number, vencimiento: string}) {
+    this.servicioApi.update(id, data).subscribe({
+      next: (req) => {
+        const servicios = this.servicio();
+        const newServicios = servicios.map((s) => s.id === req.id ? req : s);
+        this.servicio.set(newServicios);
+      }
+    })
   }
 
   public eliminarServicio(id: string) {
-    const servicios = this.servicio();
-    const newServicios = servicios.filter((s) => s.id !== id);
-    this.servicio.set(newServicios);
-    this.saveData();
+    this.servicioApi.delete(id).subscribe({
+      next: (req) => {
+        const servicios = this.servicio();
+        const newServicios = servicios.filter((s) => s.id !== id)
+        this.servicio.set(newServicios)
+      }
+    })
   }
 
   public agregarCuota(tarjetaId: string, cuota: Cuota) {

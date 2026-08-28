@@ -18,11 +18,11 @@ export class ServicioApi {
   }
 
   create(data: {nombre: string, empresaId: string, monto: number, vencimiento: string}){
-    return this.httpClient.post(this.baseURL+'/servicio', data)
+    return this.httpClient.post<Servicio>(this.baseURL+'/servicio', data)
   }
 
   update(id: string, data: {nombre: string, empresaId: string, monto: number, vencimiento: string}){
-    return this.httpClient.patch(this.baseURL+'/servicio/'+id, data)
+    return this.httpClient.patch<Servicio>(this.baseURL+'/servicio/'+id, data)
   }
 
   delete(id:string){
