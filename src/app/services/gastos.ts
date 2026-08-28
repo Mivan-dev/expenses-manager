@@ -1,7 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Tarjeta } from '../models/tarjeta.model';
 import { Servicio } from '../models/servicio.model';
-import { Cuota } from '../models/cuota.model';
 import { EmpresaApi } from './empresa-api/empresa-api';
 import { Empresa } from '../models/empresa.model';
 import { TarjetaApi } from './tarjeta-api/tarjeta-api';
@@ -63,11 +62,6 @@ export class GastosService {
         this.servicio.set(req);
       },
     });
-  }
-
-  private saveData() { //ELIMINAR ----------------------------------------------------------------------
-    localStorage.setItem('tarjetas', JSON.stringify(this.tarjeta()));
-    localStorage.setItem('servicios', JSON.stringify(this.servicio()));
   }
 
   public agregarTarjeta(data: {nombre: string, monto: number, vencimiento: string, empresaId: string}) {
@@ -198,7 +192,6 @@ export class GastosService {
       }),
     }));
     this.tarjeta.set(tarjetasActualizadas);
-    this.saveData();
   }
 
   ProximosVtos = computed(() => {
