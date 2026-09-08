@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, Output, output, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { Empresa } from '../../../models/empresa.model';
 
 @Component({

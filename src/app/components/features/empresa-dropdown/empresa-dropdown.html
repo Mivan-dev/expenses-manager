@@ -1,7 +1,7 @@
-<button (click)="toggle()">
+<button class="cursor-pointer" (click)="toggle()">
   @if (seleccionada()) {
     <div class="">
-      <img [src]="seleccionada()!.icono" alt="" />
+      <img [src]="seleccionada()!.icono" class="rounded-full h-8 w-8 mr-2 object-cover" alt="" />
       <span>{{ seleccionada()!.nombre }}</span>
     </div>
   } @else {
@@ -11,7 +11,7 @@
 @if (dropdown()) {
   @for (empresa of empresas(); track empresa.id) {
     <div class="" (click)="empresaElegida(empresa)">
-      <img [src]="empresa.icono" alt="" />
+      <img [src]="empresa.icono" class="rounded-full h-8 w-8 mr-2 object-cover" alt="" />
       <span>{{ empresa.nombre }}</span>
     </div>
   }
