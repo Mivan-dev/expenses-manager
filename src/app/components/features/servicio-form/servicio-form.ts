@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { GastosService } from '../../../services/gastos';
+import { EmpresaDropdown } from '../empresa-dropdown/empresa-dropdown';
 
 
 @Component({
   selector: 'app-servicio-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, EmpresaDropdown],
   templateUrl: './servicio-form.html',
   styleUrl: './servicio-form.css',
 })
