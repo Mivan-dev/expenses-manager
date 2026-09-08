@@ -1,0 +1,18 @@
+<button (click)="toggle()">
+  @if (seleccionada()) {
+    <div class="">
+      <img [src]="seleccionada()!.icono" alt="" />
+      <span>{{ seleccionada()!.nombre }}</span>
+    </div>
+  } @else {
+    <span>Seleccionar empresa</span>
+  }
+</button>
+@if (dropdown()) {
+  @for (empresa of empresas(); track empresa.id) {
+    <div class="" (click)="empresaElegida(empresa)">
+      <img [src]="empresa.icono" alt="" />
+      <span>{{ empresa.nombre }}</span>
+    </div>
+  }
+}
