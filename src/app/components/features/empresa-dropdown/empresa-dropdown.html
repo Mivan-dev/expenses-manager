@@ -1,18 +1,18 @@
-<button class="cursor-pointer" (click)="toggle()">
+<button class="modalForm text-left flex items-center gap-2" (click)="toggle()">
   @if (seleccionada()) {
-    <div class="">
-      <img [src]="seleccionada()!.icono" class="rounded-full h-8 w-8 mr-2 object-cover" alt="" />
-      <span>{{ seleccionada()!.nombre }}</span>
-    </div>
+    <img [src]="seleccionada()!.icono" class="rounded-full h-8 w-8 object-cover" alt="" />
+    <span>{{ seleccionada()!.nombre }}</span>
   } @else {
-    <span>Seleccionar empresa</span>
+    <span class="italic text-gray-400">Seleccionar empresa</span>
   }
 </button>
 @if (dropdown()) {
-  @for (empresa of empresas(); track empresa.id) {
-    <div class="" (click)="empresaElegida(empresa)">
-      <img [src]="empresa.icono" class="rounded-full h-8 w-8 mr-2 object-cover" alt="" />
-      <span>{{ empresa.nombre }}</span>
-    </div>
-  }
+  <div class="bg-slate-800 rounded-xl border mt-1 overflow-hidden z-10 relative">
+    @for (empresa of empresas(); track empresa.id) {
+      <div class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-slate-700" (click)="empresaElegida(empresa)">
+        <img [src]="empresa.icono" class="rounded-full h-8 w-8 object-cover" alt="" />
+        <span>{{ empresa.nombre }}</span>
+      </div>
+    }
+  </div>
 }
