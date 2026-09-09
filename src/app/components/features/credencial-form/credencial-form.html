@@ -1,0 +1,28 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 text-white">
+  <div class="bg-slate-900 rounded-2xl p-8 w-full max-w-md">
+    <h4 class="pb-6 font-bold text-xl">Credenciales</h4>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" action="" class="flex flex-col gap-4">
+      <select formControlName="etiqueta1">
+        @for (etiqueta of etiquetas; track etiqueta) {
+          <option [value]="etiqueta">{{ etiquetaLabels[etiqueta] }}</option>
+        }
+      </select>
+      <input type="text" formControlName="valor1" placeholder="Número Identificador" class="modalForm" />
+      <select formControlName="etiqueta2">
+        @for (etiqueta of etiquetas; track etiqueta) {
+          <option [value]="etiqueta">{{ etiquetaLabels[etiqueta] }}</option>
+        }
+      </select>
+      <input type="text" formControlName="valor2" placeholder="Número Identificador" class="modalForm" />
+      <button type="submit" class="bg-teal-600 py-1.5 rounded-lg cursor-pointer hover:bg-teal-500">
+        Agregar
+      </button>
+      <button
+        (click)="gastosService.cerrarModal()"
+        class="bg-gray-500 py-1.5 rounded-lg cursor-pointer hover:bg-slate-400"
+      >
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
