@@ -21,6 +21,9 @@
     @if (gastosService.modalAbierto() === 'credencial') {
       <app-credencial-form />
     }
+    @if (gastosService.modalAbierto() === 'confirmarCredencial') {
+      <app-confirm-modal />
+    }
     @if (gastosService.modalAbierto() === 'cuota') {
       <app-cuota-form />
     }

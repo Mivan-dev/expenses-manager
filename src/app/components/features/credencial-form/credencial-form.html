@@ -2,15 +2,17 @@
   <div class="bg-slate-900 rounded-2xl p-8 w-full max-w-md">
     <h4 class="pb-6 font-bold text-xl">Credenciales</h4>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" action="" class="flex flex-col gap-4">
-      <select formControlName="etiqueta1">
+      <select formControlName="etiqueta1" class="modalForm" [class.text-gray-400]="!form.value.etiqueta1" [class.text-white]="form.value.etiqueta1">
+        <option value="" disabled selected>Seleccionar tipo de credencial 1</option>
         @for (etiqueta of etiquetas; track etiqueta) {
-          <option [value]="etiqueta">{{ etiquetaLabels[etiqueta] }}</option>
+          <option [value]="etiqueta" class="text-white">{{ etiquetaLabels[etiqueta] }}</option>
         }
       </select>
       <input type="text" formControlName="valor1" placeholder="Número Identificador" class="modalForm" />
-      <select formControlName="etiqueta2">
+      <select formControlName="etiqueta2" class="modalForm" [class.text-gray-400]="!form.value.etiqueta1" [class.text-white]="form.value.etiqueta1">
+        <option value="" disabled selected>Seleccionar tipo de credencial 2 (opcional)</option>
         @for (etiqueta of etiquetas; track etiqueta) {
-          <option [value]="etiqueta">{{ etiquetaLabels[etiqueta] }}</option>
+          <option [value]="etiqueta" class="text-white">{{ etiquetaLabels[etiqueta] }}</option>
         }
       </select>
       <input type="text" formControlName="valor2" placeholder="Número Identificador" class="modalForm" />
