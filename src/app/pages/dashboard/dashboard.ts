@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { Nav } from '../../components/layout/nav/nav';
-import { Footer } from '../../components/layout/footer/footer';
 import { Tarjetas } from '../../components/features/tarjetas/tarjetas';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { TarjetaForm } from '../../components/features/tarjeta-form/tarjeta-form';
@@ -14,7 +13,7 @@ import { CredencialForm } from '../../components/features/credencial-form/creden
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios, CurrencyPipe, ProximosVtos, CredencialForm],
+  imports: [Nav, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios, CurrencyPipe, ProximosVtos, CredencialForm],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
