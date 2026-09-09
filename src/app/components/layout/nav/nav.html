@@ -1,7 +1,11 @@
 <div class="flex flex-col justify-between h-full relative text-white">
   <div class="">
     <img src="" alt="logo" />
-    <h1 id="logo" class="text-shadow-2xs text-center text-2xl tracking-wide" [class.hidden]="!isExpanded()">
+    <h1
+      id="logo"
+      class="text-shadow-2xs text-center text-2xl tracking-wide"
+      [class.hidden]="!isExpanded()"
+    >
       Ant Expenses
     </h1>
   </div>
@@ -34,18 +38,28 @@
       </button>
     </div>
     <div class="flex absolute -right-4 top-1/2">
-      <button class="flex items-center justify-around cursor-pointer rounded-full bg-gray-800 hover:bg-gray-700 w-8 h-8" (click)="toggle()">
+      <button
+        class="flex items-center justify-around cursor-pointer rounded-full bg-gray-800 hover:bg-gray-700 w-8 h-8"
+        (click)="toggle()"
+      >
         <ng-icon name="heroArrowsRightLeft" class="w-16 h-16" />
       </button>
     </div>
   </div>
 
   <div class="text-center p-4">
-    <button class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer" (click)="auth.logOut()">
+    <button
+      class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer"
+      (click)="auth.logOut()"
+    >
       <div class="flex items-center justify-around gap-4">
         <ng-icon name="heroArrowLeftStartOnRectangle" class="w-8 h-8" />
         <span [class.hidden]="!isExpanded()">Logout</span>
       </div>
     </button>
+  </div>
+  <div class="text-center p-2 text-gray-500 text-xs">
+    <span [class.hidden]="!isExpanded()">Iván Mendoza</span>
+    <p>v1.0</p>
   </div>
 </div>
