@@ -23,6 +23,7 @@ export class GastosService {
   servicioEditando = signal<Servicio | null>(null);
   cuota = signal<string | null>(null);
   cuotaApi = inject(CuotaApi);
+  credencialSeleccionada = signal<string | null>(null);
 
   constructor() {
     this.loadData();
@@ -34,12 +35,14 @@ export class GastosService {
     tarjeta?: Tarjeta,
     cuota?: string,
     servicio?: Servicio,
+    etiqueta?: string,
   ) {
     this.modalAbierto.set(tipo);
     this.tarjetaSeleccionada.set(id ?? null);
     this.tarjetaEditando.set(tarjeta ?? null);
     this.cuota.set(cuota ?? null);
     this.servicioEditando.set(servicio ?? null);
+    this.credencialSeleccionada.set(etiqueta ?? null)
   }
 
   public cerrarModal() {
@@ -123,10 +126,10 @@ export class GastosService {
       empresaId: string;
       monto: number;
       vencimiento: string;
-      etiqueta1?: EtiquetaCredencial;
-      valor1?: string;
-      etiqueta2?: EtiquetaCredencial;
-      valor2?: string;
+      etiqueta1?: EtiquetaCredencial | null;
+      valor1?: string | null;
+      etiqueta2?: EtiquetaCredencial | null;
+      valor2?: string | null;
     },
   ) {
     this.servicioApi.update(id, data).subscribe({
