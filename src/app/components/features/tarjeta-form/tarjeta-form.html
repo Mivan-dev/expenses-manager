@@ -8,10 +8,13 @@
         placeholder="Nombre: Tarjeta Naranja"
         class="modalForm"
       />
-      <app-empresa-dropdown
+      <div class="relative">
+        <app-empresa-dropdown
         [empresas]="gastosService.empresa()"
         (empresaSeleccionada)="form.patchValue({ empresaId: $event })"
-      />
+        />
+        <ng-icon name="heroChevronDown" class="absolute right-3 top-3 pointer-events-none z-20" />
+      </div>
       <input type="text" formControlName="monto" placeholder="Monto: $210000" class="modalForm" />
       <input
         type="date"

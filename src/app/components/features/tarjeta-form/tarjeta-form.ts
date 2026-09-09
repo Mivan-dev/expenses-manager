@@ -2,11 +2,14 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GastosService } from '../../../services/gastos';
 import { EmpresaDropdown } from '../empresa-dropdown/empresa-dropdown';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroChevronDown } from '@ng-icons/heroicons/outline';
 
 
 @Component({
   selector: 'app-tarjeta-form',
-  imports: [ReactiveFormsModule, EmpresaDropdown],
+  imports: [ReactiveFormsModule, EmpresaDropdown, NgIconComponent],
+  providers: [provideIcons({ heroChevronDown})],
   templateUrl: './tarjeta-form.html',
   styleUrl: './tarjeta-form.css',
 })
