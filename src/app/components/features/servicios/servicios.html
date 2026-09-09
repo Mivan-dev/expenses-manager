@@ -1,21 +1,34 @@
 <div class="flex bg-rose-100 justify-end p-1 pr-8 rounded-lg">
-  <p class="font-bold tracking-wide text-lg">Total Servicios {{gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'}} </p>
+  <p class="font-bold tracking-wide text-lg">
+    Total Servicios
+    {{ gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+  </p>
 </div>
 <div class="grid md:grid-cols-3 2xl:grid-cols-5 gap-4 items-start pt-4">
   @for (servicio of gastosService.servicio(); track servicio.id) {
     <div class="flex flex-col rounded-xl bg-rose-50 h-auto gap-4 p-4 md:w-80">
-
-        <div class="flex flex-row gap-4 justify-between">
-         <div class="flex gap-8 items-center justify-center">
-             <p class="text-lg text-center font-bold">{{ servicio.nombre }}</p>
+      <div class="flex flex-row gap-4 justify-between">
+        <div class="flex gap-8 items-center justify-center">
+          <p class="text-lg text-center font-bold">{{ servicio.nombre }}</p>
           <h2 class="text-2xl font-bold">
             {{ servicio.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
           </h2>
-         </div>
-          <div class="flex gap-2">
-            <button
+        </div>
+        <div class="flex gap-2">
+          <a [href]="getEmpresa(servicio.empresaId)?.url" target="_blank">
+            <ng-icon name="heroArrowTopRightOnSquare" class="w-4 h-4" />
+          </a>
+          <button
             class="cursor-pointer"
-            (click)="gastosService.abrirModal('editarServicio', servicio.id, undefined, undefined, servicio)"
+            (click)="
+              gastosService.abrirModal(
+                'editarServicio',
+                servicio.id,
+                undefined,
+                undefined,
+                servicio
+              )
+            "
           >
             <ng-icon name="heroPencil" class="w-4 h-4" />
           </button>
@@ -25,18 +38,35 @@
           >
             <ng-icon name="heroTrash" class="w-4 h-4" />
           </button>
-          </div>
         </div>
+      </div>
 
       <div class="flex justify-between text-xs p-2">
         <a class="flex flex-row justify-between items-center">
-          <img [src]=getEmpresa(servicio.empresaId)?.icono class="rounded-full h-8 w-8 mr-2 object-cover" />
-          <span class="font-bold tracking-wide text-sm text-gray-700">{{ getEmpresa(servicio.empresaId)?.nombre }}</span>
+          <img
+            [src]="getEmpresa(servicio.empresaId)?.icono"
+            class="rounded-full h-8 w-8 mr-2 object-cover"
+          />
+          <span class="font-bold tracking-wide text-sm text-gray-700">{{
+            getEmpresa(servicio.empresaId)?.nombre
+          }}</span>
         </a>
         <div class="text-sm tracking-tight text-right text-emerald-900">
           <p>Vence {{ servicio.vencimiento | date: 'dd/MM/yyyy' }}</p>
         </div>
       </div>
+      @if (servicio.etiqueta1 && servicio.valor1) {
+        <p>{{servicio.etiqueta1}}: {{servicio.valor1}}</p>
+        <ng-icon name="heroDocumentDuplicate" class="w-1/4" (click)=copiarCredencial(servicio.valor1) />
+        @if (servicio.etiqueta2 && servicio.valor2){
+          <p>{{servicio.etiqueta2}}: {{servicio.valor2}}</p>
+          <ng-icon name="heroDocumentDuplicate" class="w-1/4" (click)=copiarCredencial(servicio.valor2) />
+        } @else {
+          <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
+        }
+      } @else {
+        <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
+      }
     </div>
   }
 </div>
