@@ -1,4 +1,4 @@
-<button class="modalForm text-left flex items-center gap-2" (click)="toggle()">
+<button class="modalForm text-left flex items-center gap-2" type="button" (click)="toggle(); $event.stopPropagation()">
   @if (seleccionada()) {
     <img [src]="seleccionada()!.icono" class="rounded-full h-8 w-8 object-cover" alt="" />
     <span>{{ seleccionada()!.nombre }}</span>
