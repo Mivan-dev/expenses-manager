@@ -18,6 +18,7 @@ export class Login {
   });
 
   onSubmit(){
+    console.log(this.form.valid, this.form.errors, this.form.value)
     if(this.form.valid){
       const data = {
         email: this.form.value.email!,
