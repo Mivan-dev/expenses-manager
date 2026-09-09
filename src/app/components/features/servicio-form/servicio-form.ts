@@ -2,11 +2,14 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { GastosService } from '../../../services/gastos';
 import { EmpresaDropdown } from '../empresa-dropdown/empresa-dropdown';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroChevronDown } from '@ng-icons/heroicons/outline';
 
 
 @Component({
   selector: 'app-servicio-form',
-  imports: [ReactiveFormsModule, EmpresaDropdown],
+  imports: [ReactiveFormsModule, EmpresaDropdown, NgIconComponent],
+  providers: [provideIcons({ heroChevronDown})],
   templateUrl: './servicio-form.html',
   styleUrl: './servicio-form.css',
 })

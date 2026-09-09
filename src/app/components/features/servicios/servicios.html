@@ -14,10 +14,10 @@
             {{ servicio.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
           </h2>
         </div>
-        <div class="flex gap-2">
-          <a [href]="getEmpresa(servicio.empresaId)?.url" target="_blank">
+        <div class="flex gap-2 items-center">
+          <button class="cursor-pointer" (click)="abrirUrl(getEmpresa(servicio.empresaId)?.url)">
             <ng-icon name="heroArrowTopRightOnSquare" class="w-4 h-4" />
-          </a>
+          </button>
           <button
             class="cursor-pointer"
             (click)="
@@ -56,17 +56,39 @@
         </div>
       </div>
       @if (servicio.etiqueta1 && servicio.valor1) {
-        <p>{{servicio.etiqueta1}}: {{servicio.valor1}}</p>
-        <ng-icon name="heroDocumentDuplicate" class="w-1/4" (click)=copiarCredencial(servicio.valor1) />
-        @if (servicio.etiqueta2 && servicio.valor2){
-          <p>{{servicio.etiqueta2}}: {{servicio.valor2}}</p>
-          <ng-icon name="heroDocumentDuplicate" class="w-1/4" (click)=copiarCredencial(servicio.valor2) />
-        } @else {
-          <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
-        }
-      } @else {
-        <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
-      }
+  <div class="flex gap-4">
+    <p class="text-sm tracking-tight text-left">
+      {{ etiquetaLabels[servicio.etiqueta1] }} {{ servicio.valor1 }}
+    </p>
+    <button>
+      <ng-icon name="heroDocumentDuplicate" class="w-1/4 cursor-pointer" (click)="copiarCredencial(servicio.valor1)" />
+    </button>
+    <button (click)="gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '1')">
+      <ng-icon name="heroTrash" class="w-1/4 cursor-pointer" />
+    </button>
+  </div>
+}
+@if (servicio.etiqueta2 && servicio.valor2) {
+  <div class="flex gap-4">
+    <p class="text-sm tracking-tight text-left">
+      {{ etiquetaLabels[servicio.etiqueta2] }} {{ servicio.valor2 }}
+    </p>
+    <button>
+      <ng-icon name="heroDocumentDuplicate" class="w-1/4 cursor-pointer" (click)="copiarCredencial(servicio.valor2)" />
+    </button>
+    <button (click)="gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '2')">
+      <ng-icon name="heroTrash" class="w-1/4 cursor-pointer" />
+    </button>
+  </div>
+}
+@if (!servicio.etiqueta1 || !servicio.etiqueta2) {
+  <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
+}
+    </div>
+  }
+  @if (toastVisible()) {
+    <div class="fixed bottom-4 right-4 bg-teal-600 text-white px-4 py-2 rounded-lg">
+      ¡Copiado en portapapeles!
     </div>
   }
 </div>

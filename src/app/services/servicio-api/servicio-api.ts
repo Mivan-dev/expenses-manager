@@ -28,10 +28,10 @@ export class ServicioApi {
       empresaId: string;
       monto: number;
       vencimiento: string;
-      etiqueta1?: EtiquetaCredencial;
-      valor1?: string;
-      etiqueta2?: EtiquetaCredencial;
-      valor2?: string;
+      etiqueta1?: EtiquetaCredencial | null;
+      valor1?: string | null;
+      etiqueta2?: EtiquetaCredencial | null;
+      valor2?: string | null;
     },
   ) {
     return this.httpClient.patch<Servicio>(this.baseURL + '/servicio/' + id, data);
