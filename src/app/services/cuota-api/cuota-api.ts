@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Cuota } from '../../models/cuota.model';
+import { environment } from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Cuota } from '../../models/cuota.model';
 export class CuotaApi {
 
   httpClient = inject(HttpClient);
-  baseURL: string = 'http://localhost:3000';
+  baseURL: string = environment.apiUrl;
 
   create(data: {
       nombre: string;

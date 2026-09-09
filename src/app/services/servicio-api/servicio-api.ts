@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { EtiquetaCredencial, Servicio } from '../../models/servicio.model';
+import { environment } from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServicioApi {
   httpClient = inject(HttpClient);
-  baseURL: string = 'http://localhost:3000';
+  baseURL: string = environment.apiUrl;
 
   getAll() {
     return this.httpClient.get<Servicio[]>(this.baseURL + '/servicio');

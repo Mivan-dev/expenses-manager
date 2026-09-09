@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Tarjeta } from '../../models/tarjeta.model';
+import { environment } from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
 })
 export class TarjetaApi {
   httpClient = inject(HttpClient);
-  baseURL: string = 'http://localhost:3000';
+  baseURL: string = environment.apiUrl;
 
   getAll(){
     return this.httpClient.get<Tarjeta[]>(this.baseURL+'/tarjeta')
