@@ -18,6 +18,9 @@
     @if (gastosService.modalAbierto() === 'editarServicio') {
       <app-servicio-form />
     }
+    @if (gastosService.modalAbierto() === 'credencial') {
+      <app-credencial-form />
+    }
     @if (gastosService.modalAbierto() === 'cuota') {
       <app-cuota-form />
     }

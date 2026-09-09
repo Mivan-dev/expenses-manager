@@ -10,10 +10,11 @@ import { ServicioForm } from '../../components/features/servicio-form/servicio-f
 import { Servicios } from '../../components/features/servicios/servicios';
 import { ProximosVtos } from '../../components/features/proximos-vtos/proximos-vtos';
 import { GastosService } from '../../services/gastos';
+import { CredencialForm } from '../../components/features/credencial-form/credencial-form';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios, CurrencyPipe, ProximosVtos],
+  imports: [Nav, Footer, Tarjetas, NgClass, TarjetaForm, CuotaForm, ConfirmModal, ServicioForm, Servicios, CurrencyPipe, ProximosVtos, CredencialForm],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
