@@ -1,13 +1,7 @@
 <div class="flex flex-col justify-between h-full relative text-white">
   <div class="flex items-center justify-center flex-col pt-2">
-    <img src="/dashboard-trackio.jpg" alt="logo" class="h-10 w-10 rounded-full items-center"/>
-    <h1
-      id="logo"
-      class="text-center text-2xl pt-2"
-      [class.hidden]="!isExpanded()"
-    >
-      TRACKIO
-    </h1>
+    <img src="/dashboard-trackio.jpg" alt="logo" class="h-10 w-10 rounded-full items-center" />
+    <h1 id="logo" class="text-center text-2xl pt-2" [class.hidden]="!isExpanded()">TRACKIO</h1>
   </div>
 
   <div class="flex text-md">
@@ -48,6 +42,17 @@
   </div>
 
   <div class="text-center p-4">
+    <div class="text-center px-4">
+      <button
+        class="navbutton flex w-full items-center justify-center gap-3"
+        (click)="theme.toggle()"
+      >
+        <ng-icon [name]="theme.tema() === 'dark' ? 'heroSun' : 'heroMoon'" class="h-5 w-5" />
+        <span [class.hidden]="!isExpanded()">
+          {{ theme.tema() === 'dark' ? 'Modo claro' : 'Modo oscuro' }}
+        </span>
+      </button>
+    </div>
     <button
       class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer"
       (click)="auth.logOut()"
