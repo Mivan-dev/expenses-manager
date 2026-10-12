@@ -1,63 +1,92 @@
-<div class="flex bg-amber-100 justify-end p-1 pr-8 rounded-lg">
-  <p class="font-bold tracking-wide text-lg">Total Tarjetas {{gastosService.totalTarjetas() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'}} </p>
+<div class="card flex justify-end px-5 py-2">
+  <p class="text-lg font-bold tracking-wide">
+    Total Tarjetas
+    <span class="text-amber-500">{{ gastosService.totalTarjetas() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</span>
+  </p>
 </div>
-<div class="grid md:grid-cols-3 2xl:grid-cols-5 gap-4 items-start pt-4">
+
+<div class="grid items-start gap-4 pt-4 md:grid-cols-3 2xl:grid-cols-5">
   @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
-    <div class="flex flex-col rounded-xl bg-amber-50 h-auto gap-4 p-4 w-auto">
-      <div class="flex flex-row justify-end gap-4">
+    <div class="card flex flex-col gap-4 border-l-4 border-l-amber-400">
+      <div class="flex justify-end gap-3 text-content-muted">
         <button
-          class="cursor-pointer"
+          type="button"
+          aria-label="Editar tarjeta"
+          class="cursor-pointer transition hover:text-content"
           (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)"
         >
-          <ng-icon name="heroPencil" class="w-4 h-4" />
+          <ng-icon name="heroPencil" size="16" />
         </button>
-        <button class="cursor-pointer" (click)="gastosService.abrirModal('confirmarTarjeta', tarjeta.id)">
-          <ng-icon name="heroTrash" class="w-4 h-4" />
+        <button
+          type="button"
+          aria-label="Eliminar tarjeta"
+          class="cursor-pointer transition hover:text-red-500"
+          (click)="gastosService.abrirModal('confirmarTarjeta', tarjeta.id)"
+        >
+          <ng-icon name="heroTrash" size="16" />
         </button>
       </div>
-      <div class="p-2 flex items-center justify-between">
-        <p class="text-lg text-center font-bold">{{ tarjeta.nombre }}</p>
+
+      <div class="flex items-center justify-between">
+        <p class="text-lg font-bold">{{ tarjeta.nombre }}</p>
         <h2 class="text-2xl font-bold">
           {{ tarjeta.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
         </h2>
       </div>
-      <div class="flex justify-between text-xs p-2">
-        <a class="flex flex-row justify-between items-center">
-          <img [src]=getEmpresa(tarjeta.empresaId)?.icono class="rounded-full h-8 w-8 mr-2 object-cover" />
-          <span class="font-bold tracking-wide text-sm text-gray-700">{{ getEmpresa(tarjeta.empresaId)?.nombre }}</span>
-        </a>
-        <div class="text-sm tracking-tight text-right text-emerald-900">
-          Vence: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <img
+            [src]="getEmpresa(tarjeta.empresaId)?.icono"
+            alt=""
+            class="h-8 w-8 rounded-full object-cover"
+          />
+          <span class="text-sm font-semibold tracking-wide text-content-muted">
+            {{ getEmpresa(tarjeta.empresaId)?.nombre }}
+          </span>
         </div>
+        <span class="text-sm tracking-tight text-content-muted">
+          Vence: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
+        </span>
       </div>
-      <hr class="border-gray-300" />
+
+      <hr class="border-surface-border" />
+
       @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="grid grid-cols-4 text-sm tracking-tight text-gray-800">
-          <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="truncate">{{ cuota.nombre }}</p>
-          <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="text-center">{{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}</p>
+        <div class="grid grid-cols-4 items-center gap-2 text-sm tracking-tight">
+          <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="truncate">
+            {{ cuota.nombre }}
+          </p>
+          <p
+            [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal"
+            class="text-center text-content-muted"
+          >
+            {{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}
+          </p>
           <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="text-right">
             {{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
           </p>
           <button
-            class="cursor-pointer"
+            type="button"
+            aria-label="Eliminar cuota"
+            class="cursor-pointer justify-self-end text-content-muted transition hover:text-red-500"
             (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)"
           >
-            <ng-icon name="heroTrash" class="w-4 h-4" />
+            <ng-icon name="heroTrash" size="16" />
           </button>
         </div>
       }
-      <hr class="border-gray-300" />
-      <div class="">
-        <button
-          class="border rounded-2xl p-1 cursor-pointer border-slate-500 hover:bg-slate-200"
-          (click)="gastosService.abrirModal('cuota', tarjeta.id)"
-        >
-          <div class="flex items-center justify-center gap-1">
-            <ng-icon name="heroPlus" class="w-1/4" />
-            <span class="w-3/4 font-bold text-sm text-slate-800">Cuota</span>
-          </div>
-        </button>
-      </div>
+
+      <hr class="border-surface-border" />
+
+      <button
+        type="button"
+        class="btn-ghost flex items-center justify-center gap-1 border border-surface-border text-sm font-semibold"
+        (click)="gastosService.abrirModal('cuota', tarjeta.id)"
+      >
+        <ng-icon name="heroPlus" size="16" />
+        Cuota
+      </button>
     </div>
   }
 </div>
