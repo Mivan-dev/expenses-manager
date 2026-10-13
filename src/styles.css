@@ -5,6 +5,7 @@
 
 /* Valores por tema */
 :root {
+  color-scheme: light;
   --canvas: #f1f5f9;
   --surface: #ffffff;
   --surface-border: rgb(15 23 42 / 0.08);
@@ -14,6 +15,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --canvas: #0b1120;
   --surface: #111a2e;
   --surface-border: rgb(255 255 255 / 0.08);
@@ -48,6 +50,10 @@
 
   .modal-panel {
     @apply w-full max-w-md rounded-2xl border border-surface-border bg-surface p-8 text-content shadow-2xl;
+  }
+
+  .modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm;
   }
 
   .modalForm {
