@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { GastosService } from '../../../services/gastos';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { hoyAMedianoche } from '../../../utils/fechas';
 
 @Component({
   selector: 'app-proximos-vtos',
@@ -9,10 +10,9 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
   styleUrl: './proximos-vtos.css',
 })
 export class ProximosVtos {
-  gastosService = inject(GastosService)
+  gastosService = inject(GastosService);
 
   diasFaltantes(fecha: Date): number {
-    const hoy = new Date();
-    return Math.round((fecha.getTime() - hoy.getTime()) / 86400000);
+    return Math.round((fecha.getTime() - hoyAMedianoche().getTime()) / 86400000);
   }
 }

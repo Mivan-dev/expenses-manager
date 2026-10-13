@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { Empresa } from '../../../models/empresa.model';
 
 @Component({
@@ -8,19 +8,27 @@ import { Empresa } from '../../../models/empresa.model';
   styleUrl: './empresa-dropdown.css',
 })
 export class EmpresaDropdown {
+  dropdown = signal<boolean>(false);
+  empresas = input<Empresa[]>([]);
+  empresaInicialId = input<string | null>(null);
+  empresaSeleccionada = output<string>();
 
-  dropdown = signal<boolean>(false)
-  empresas = input<Empresa[]>([])
-  empresaSeleccionada = output<string>()
-  seleccionada = signal<Empresa | null>(null)
+  private elegida = signal<Empresa | null>(null);
 
-  toggle(){
-    this.dropdown.set(!this.dropdown())
-  };
+  seleccionada = computed(
+    () =>
+      this.elegida() ??
+      this.empresas().find((e) => e.id === this.empresaInicialId()) ??
+      null,
+  );
 
-  empresaElegida(empresa: Empresa){
-    this.seleccionada.set(empresa)
-    this.empresaSeleccionada.emit(empresa.id)
-    this.dropdown.set(false)
-}
+  toggle() {
+    this.dropdown.set(!this.dropdown());
+  }
+
+  empresaElegida(empresa: Empresa) {
+    this.elegida.set(empresa);
+    this.empresaSeleccionada.emit(empresa.id);
+    this.dropdown.set(false);
+  }
 }
