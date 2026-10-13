@@ -68,6 +68,10 @@
     @apply cursor-pointer rounded-lg bg-content/5 py-2 text-content-muted transition hover:bg-content/10;
   }
 
+  .btn-danger {
+  @apply cursor-pointer rounded-lg bg-red-500/10 py-2 font-medium text-red-500 transition hover:bg-red-500 hover:text-white;
+  }
+
   .navbutton {
     @apply cursor-pointer rounded-xl px-2 py-1.5 text-content transition hover:bg-content/10 hover:text-accent;
   }
