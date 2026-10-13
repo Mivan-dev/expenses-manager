@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-between h-full relative text-white">
+<div class="relative flex h-full flex-col justify-between text-content">
   <div class="flex items-center justify-center flex-col pt-2">
     <img src="/dashboard-trackio.jpg" alt="logo" class="h-10 w-10 rounded-full items-center" />
     <h1 id="logo" class="text-center text-2xl pt-2" [class.hidden]="!isExpanded()">TRACKIO</h1>
@@ -33,10 +33,12 @@
     </div>
     <div class="flex absolute -right-4 top-1/2">
       <button
-        class="flex items-center justify-around cursor-pointer rounded-full bg-gray-800 hover:bg-gray-700 w-8 h-8"
+        type="button"
+        aria-label="Expandir o colapsar menú"
+        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-surface-border bg-surface text-content-muted transition hover:text-content"
         (click)="toggle()"
       >
-        <ng-icon name="heroArrowsRightLeft" class="w-16 h-16" />
+        <ng-icon name="heroArrowsRightLeft" size="16" />
       </button>
     </div>
   </div>
@@ -54,16 +56,15 @@
       </button>
     </div>
     <button
-      class="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full cursor-pointer"
+      type="button"
+      class="btn-ghost flex items-center justify-center gap-3 px-3"
       (click)="auth.logOut()"
     >
-      <div class="flex items-center justify-around gap-4">
-        <ng-icon name="heroArrowLeftStartOnRectangle" class="w-8 h-8" />
-        <span [class.hidden]="!isExpanded()">Logout</span>
-      </div>
+      <ng-icon name="heroArrowLeftStartOnRectangle" size="20" />
+      <span [class.hidden]="!isExpanded()">Logout</span>
     </button>
   </div>
-  <div class="text-center p-2 text-gray-500 text-xs">
+  <div class="p-2 text-center text-xs text-content-muted">
     <span [class.hidden]="!isExpanded()">Iván Mendoza</span>
     <p>v1.0</p>
   </div>

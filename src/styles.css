@@ -63,7 +63,7 @@
   }
 
   .navbutton {
-    @apply cursor-pointer rounded-xl px-2 py-1.5 text-white transition hover:bg-white/10;
+    @apply cursor-pointer rounded-xl px-2 py-1.5 text-content transition hover:bg-content/10 hover:text-accent;
   }
 
   .cuotaTerminada {
