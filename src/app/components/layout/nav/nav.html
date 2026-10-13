@@ -1,71 +1,76 @@
-<div class="relative flex h-full flex-col justify-between text-content">
-  <div class="flex items-center justify-center flex-col pt-2">
-    <img src="/dashboard-trackio.jpg" alt="logo" class="h-10 w-10 rounded-full items-center" />
-    <h1 id="logo" class="text-center text-2xl pt-2" [class.hidden]="!isExpanded()">TRACKIO</h1>
+<div class="relative flex h-full flex-col justify-between py-3 text-content">
+  <div class="flex flex-col items-center gap-2 pt-2">
+    <img src="/dashboard-trackio.jpg" alt="logo" class="h-10 w-10 rounded-full" />
+    <h1 id="logo" class="text-2xl" [class.hidden]="!isExpanded()">TRACKIO</h1>
   </div>
 
-  <div class="flex text-md">
-    <div class="flex flex-col gap-4 mx-auto">
-      <button class="navbutton" (click)="gastosService.abrirModal('tarjeta')">
-        <div class="flex items-center text-start gap-3 tracking-wide">
-          <ng-icon name="heroCreditCard" class="w-1/4" />
-          <span class="w-3/4" [class.hidden]="!isExpanded()">Tarjeta</span>
-        </div>
-      </button>
-      <button class="navbutton" (click)="gastosService.abrirModal('servicio')">
-        <div class="flex items-center text-start gap-3 tracking-wide">
-          <ng-icon name="heroDocumentCurrencyDollar" class="w-1/4" />
-          <span class="w-3/4" [class.hidden]="!isExpanded()">Servicio</span>
-        </div>
-      </button>
-      <button class="navbutton">
-        <div class="flex items-center text-start gap-3 tracking-wide">
-          <ng-icon name="heroPlus" class="w-1/4" />
-          <span class="w-3/4" [class.hidden]="!isExpanded()">Next</span>
-        </div>
-      </button>
-      <button class="navbutton">
-        <div class="flex items-center text-start gap-3 tracking-wide">
-          <ng-icon name="heroPlus" class="w-1/4" />
-          <span class="w-3/4" [class.hidden]="!isExpanded()">Algo mas</span>
-        </div>
-      </button>
-    </div>
-    <div class="flex absolute -right-4 top-1/2">
-      <button
-        type="button"
-        aria-label="Expandir o colapsar menú"
-        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-surface-border bg-surface text-content-muted transition hover:text-content"
-        (click)="toggle()"
-      >
-        <ng-icon name="heroArrowsRightLeft" size="16" />
-      </button>
-    </div>
-  </div>
-
-  <div class="text-center p-4">
-    <div class="text-center px-4">
-      <button
-        class="navbutton flex w-full items-center justify-center gap-3"
-        (click)="theme.toggle()"
-      >
-        <ng-icon [name]="theme.tema() === 'dark' ? 'heroSun' : 'heroMoon'" class="h-5 w-5" />
-        <span [class.hidden]="!isExpanded()">
-          {{ theme.tema() === 'dark' ? 'Modo claro' : 'Modo oscuro' }}
-        </span>
-      </button>
-    </div>
+  <nav class="flex flex-col gap-2 px-2">
     <button
       type="button"
-      class="btn-ghost flex items-center justify-center gap-3 px-3"
+      class="navbutton"
+      [class.justify-center]="!isExpanded()"
+      (click)="gastosService.abrirModal('tarjeta')"
+    >
+      <ng-icon name="heroCreditCard" size="22" class="shrink-0" />
+      <span [class.hidden]="!isExpanded()">Tarjeta</span>
+    </button>
+    <button
+      type="button"
+      class="navbutton"
+      [class.justify-center]="!isExpanded()"
+      (click)="gastosService.abrirModal('servicio')"
+    >
+      <ng-icon name="heroDocumentCurrencyDollar" size="22" class="shrink-0" />
+      <span [class.hidden]="!isExpanded()">Servicio</span>
+    </button>
+    <button type="button" class="navbutton" [class.justify-center]="!isExpanded()">
+      <ng-icon name="heroPlus" size="22" class="shrink-0" />
+      <span [class.hidden]="!isExpanded()">Next</span>
+    </button>
+    <button type="button" class="navbutton" [class.justify-center]="!isExpanded()">
+      <ng-icon name="heroPlus" size="22" class="shrink-0" />
+      <span [class.hidden]="!isExpanded()">Algo mas</span>
+    </button>
+  </nav>
+
+  <div class="flex flex-col gap-2 px-2">
+    <button
+      type="button"
+      class="navbutton"
+      [class.justify-center]="!isExpanded()"
+      (click)="theme.toggle()"
+    >
+      <ng-icon
+        [name]="theme.tema() === 'dark' ? 'heroSun' : 'heroMoon'"
+        size="22"
+        class="shrink-0"
+      />
+      <span [class.hidden]="!isExpanded()">
+        {{ theme.tema() === 'dark' ? 'Modo claro' : 'Modo oscuro' }}
+      </span>
+    </button>
+    <button
+      type="button"
+      class="navbutton hover:text-red-500"
+      [class.justify-center]="!isExpanded()"
       (click)="auth.logOut()"
     >
-      <ng-icon name="heroArrowLeftStartOnRectangle" size="20" />
+      <ng-icon name="heroArrowLeftStartOnRectangle" size="22" class="shrink-0" />
       <span [class.hidden]="!isExpanded()">Logout</span>
     </button>
+
+    <div class="pt-2 text-center text-xs text-content-muted">
+      <span [class.hidden]="!isExpanded()">Iván Mendoza</span>
+      <p>v1.0</p>
+    </div>
   </div>
-  <div class="p-2 text-center text-xs text-content-muted">
-    <span [class.hidden]="!isExpanded()">Iván Mendoza</span>
-    <p>v1.0</p>
-  </div>
+
+  <button
+    type="button"
+    aria-label="Expandir o colapsar menú"
+    class="absolute -right-4 top-1/2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-surface-border bg-surface text-content-muted transition hover:text-content"
+    (click)="toggle()"
+  >
+    <ng-icon name="heroArrowsRightLeft" size="16" />
+  </button>
 </div>
