@@ -1,21 +1,82 @@
 @import "tailwindcss";
 
-/*Dot grid */
-body {
-  background-color: #0f172a;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
-  font-family: 'Geist', sans-serif;
+/* Tailwind v4: "dark:" se activa con la clase .dark en <html>, no con el sistema */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Valores por tema */
+:root {
+  color-scheme: light;
+  --canvas: #f1f5f9;
+  --surface: #ffffff;
+  --surface-border: rgb(15 23 42 / 0.08);
+  --content: #0f172a;
+  --content-muted: #64748b;
+  --dot: rgb(15 23 42 / 0.07);
 }
 
-.navbutton {
-  @apply rounded-xl px-2 py-1 text-white hover:bg-teal-700 cursor-pointer
+.dark {
+  color-scheme: dark;
+  --canvas: #0b1120;
+  --surface: #111a2e;
+  --surface-border: rgb(255 255 255 / 0.08);
+  --content: #f1f5f9;
+  --content-muted: #94a3b8;
+  --dot: rgb(255 255 255 / 0.05);
 }
 
-.modalForm {
-  @apply border rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 italic tracking-tight bg-slate-800;
+/* Expone las variables como utilidades: bg-canvas, bg-surface, text-content... */
+@theme inline {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-content: var(--content);
+  --color-content-muted: var(--content-muted);
+  --color-accent: #2dd4bf;
 }
 
-.cuotaTerminada {
-  @apply line-through text-gray-500 bg-slate-100 ;
+@layer base {
+  body {
+    @apply bg-canvas text-content font-sans antialiased transition-colors;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-surface-border bg-surface p-5 shadow-sm transition;
+  }
+
+  .modal-panel {
+    @apply w-full max-w-md rounded-2xl border border-surface-border bg-surface p-8 text-content shadow-2xl;
+  }
+
+  .modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm;
+  }
+
+  .modalForm {
+    @apply w-full rounded-xl border border-surface-border bg-canvas px-4 py-3 tracking-tight text-content placeholder:text-content-muted transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
+  }
+
+  .btn-primary {
+    @apply cursor-pointer rounded-lg bg-teal-600 py-2 font-medium text-white transition hover:bg-teal-500;
+  }
+
+  .btn-ghost {
+    @apply cursor-pointer rounded-lg bg-content/5 py-2 text-content-muted transition hover:bg-content/10;
+  }
+
+  .btn-danger {
+  @apply cursor-pointer rounded-lg bg-red-500/10 py-2 font-medium text-red-500 transition hover:bg-red-500 hover:text-white;
+  }
+
+  .navbutton {
+    @apply flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-content transition hover:bg-content/10 hover:text-accent;
+  }
+
+  .cuotaTerminada {
+    @apply text-content-muted line-through;
+  }
 }

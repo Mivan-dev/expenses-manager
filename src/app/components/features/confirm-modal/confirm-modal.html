@@ -1,18 +1,12 @@
-<div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center gap-4">
-  <div class="flex flex-col justify-center items-center bg-slate-900 p-8 w-full max-w-md rounded-2xl">
-    <p class="text-white text-lg pb-6">¿Desea eliminarlo permanentemente?</p>
-    <div class="flex gap-8">
-      <button
-        class="text-red-500 cursor-pointer hover:bg-red-900 hover:text-white hover:rounded-lg hover:p-1"
-        (click)="eliminarObjeto()"
-      >
-        Eliminar
-      </button>
-      <button
-        class="text-white cursor-pointer hover:bg-slate-700 hover:rounded-lg hover:p-1"
-        (click)="gastosService.cerrarModal()"
-      >
+<div class="modal-overlay">
+  <div class="modal-panel flex flex-col items-center text-center">
+    <p class="pb-6 text-lg">¿Desea eliminarlo permanentemente?</p>
+    <div class="flex w-full gap-3">
+      <button type="button" class="btn-ghost flex-1" (click)="gastosService.cerrarModal()">
         Cancelar
+      </button>
+      <button type="button" class="btn-danger flex-1" (click)="eliminarObjeto()">
+        Eliminar
       </button>
     </div>
   </div>
