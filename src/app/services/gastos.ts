@@ -50,22 +50,28 @@ export class GastosService {
     this.modalAbierto.set(null);
   }
 
-  private loadData() {
+  public loadData() {
     this.tarjetaApi.getAll().subscribe({
       next: (req) => {
-        this.tarjeta.set(req);
+        this.tarjeta.set(req); 
+        this.actualizarCuotas();
       },
+      error: (err) => console.error('Error al cargar tarjetas', err),
     });
     this.empresaApi.getAll().subscribe({
-      next: (req) => {
-        this.empresa.set(req);
-      },
+      next: (req) => this.empresa.set(req),
+      error: (err) => console.error('Error al cargar empresas', err),
     });
     this.servicioApi.getAll().subscribe({
-      next: (req) => {
-        this.servicio.set(req);
-      },
+      next: (req) => this.servicio.set(req),
+      error: (err) => console.error('Error al cargar servicios', err),
     });
+  }
+
+  public limpiarDatos() {
+    this.tarjeta.set([]);
+    this.servicio.set([]);
+    this.empresa.set([]);
   }
 
   public agregarTarjeta(data: {
