@@ -6,6 +6,7 @@
       <div class="relative">
         <app-empresa-dropdown
           [empresas]="gastosService.empresa()"
+          [empresaInicialId]="gastosService.servicioEditando()?.empresaId ?? null"
           (empresaSeleccionada)="form.patchValue({ empresaId: $event })"
         />
         <ng-icon
