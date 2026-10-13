@@ -20,10 +20,6 @@ import { CredencialForm } from '../../components/features/credencial-form/creden
 export class Dashboard {
   protected readonly title = signal('expenses-manager');
 
-  constructor(){
-    this.gastosService.actualizarCuotas();
-  }
-
   isNavExpanded = signal<boolean>(true)
   gastosService = inject(GastosService)
 
