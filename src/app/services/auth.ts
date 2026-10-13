@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment'
+import { GastosService } from './gastos';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { environment } from '../../environments/environment'
 export class Auth {
   httpClient = inject(HttpClient);
   router = inject(Router);
+  gastosService = inject(GastosService);
 
   baseUrl: string = environment.apiUrl;
 
@@ -16,6 +18,7 @@ export class Auth {
     this.httpClient.post<{token: string}>(this.baseUrl + '/auth/login', data).subscribe({
       next: (respuesta) => {
         localStorage.setItem('token', respuesta.token);
+        this.gastosService.loadData();
         this.router.navigate(['/']);
       },
       error: (err) => {
@@ -26,6 +29,7 @@ export class Auth {
 
   logOut() {
     localStorage.removeItem('token');
+    this.gastosService.limpiarDatos();
     this.router.navigate(['login'])
   }
 
