@@ -1,21 +1,82 @@
 <div class="modal-overlay">
   <div class="modal-panel">
     <h4 class="pb-6 text-xl font-bold">Cuotas</h4>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-      <input type="text" formControlName="nombre" placeholder="Nombre: Celular" class="modalForm" />
-      <input
-        type="text"
-        formControlName="cuotaActual"
-        placeholder="Cuota actual: 1"
-        class="modalForm"
-      />
-      <input
-        type="text"
-        formControlName="cuotaTotal"
-        placeholder="Cuota total: 6"
-        class="modalForm"
-      />
-      <input type="text" formControlName="monto" placeholder="Monto: $70.000" class="modalForm" />
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4" novalidate>
+      <div>
+        <input
+          type="text"
+          formControlName="nombre"
+          placeholder="Nombre: Celular"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('nombre')"
+        />
+        @if (campoInvalido('nombre')) {
+          <p class="mt-1 text-sm text-red-500">Ingresá un nombre</p>
+        }
+      </div>
+
+      <div>
+        <input
+          type="text"
+          inputmode="numeric"
+          formControlName="cuotaActual"
+          placeholder="Cuota actual: 1"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('cuotaActual') || (form.hasError('cuotaMayorQueTotal') && form.controls.cuotaActual.touched)"
+        />
+        @if (campoInvalido('cuotaActual')) {
+          <p class="mt-1 text-sm text-red-500">
+            @if (form.controls.cuotaActual.hasError('required')) {
+              Ingresá la cuota actual
+            } @else {
+              Debe ser un número entero de 1 en adelante
+            }
+          </p>
+        } @else if (form.hasError('cuotaMayorQueTotal') && form.controls.cuotaActual.touched) {
+          <p class="mt-1 text-sm text-red-500">La cuota actual no puede ser mayor que la total</p>
+        }
+      </div>
+
+      <div>
+        <input
+          type="text"
+          inputmode="numeric"
+          formControlName="cuotaTotal"
+          placeholder="Cuota total: 6"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('cuotaTotal')"
+        />
+        @if (campoInvalido('cuotaTotal')) {
+          <p class="mt-1 text-sm text-red-500">
+            @if (form.controls.cuotaTotal.hasError('required')) {
+              Ingresá la cuota total
+            } @else {
+              Debe ser un número entero de 1 en adelante
+            }
+          </p>
+        }
+      </div>
+
+      <div>
+        <input
+          type="text"
+          inputmode="decimal"
+          formControlName="monto"
+          placeholder="Monto: $70.000"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('monto')"
+        />
+        @if (campoInvalido('monto')) {
+          <p class="mt-1 text-sm text-red-500">
+            @if (form.controls.monto.hasError('required')) {
+              Ingresá un monto
+            } @else {
+              El monto debe ser un número mayor a 0
+            }
+          </p>
+        }
+      </div>
+
       <button type="submit" class="btn-primary">Cargar Cuota</button>
       <button type="button" class="btn-ghost" (click)="gastosService.cerrarModal()">
         Cancelar

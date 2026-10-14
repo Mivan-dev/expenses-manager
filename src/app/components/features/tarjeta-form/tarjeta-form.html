@@ -1,27 +1,75 @@
 <div class="modal-overlay">
   <div class="modal-panel">
     <h4 class="pb-6 text-xl font-bold">Tarjeta</h4>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-      <input
-        type="text"
-        formControlName="nombre"
-        placeholder="Nombre: Tarjeta Naranja"
-        class="modalForm"
-      />
-      <div class="relative">
-        <app-empresa-dropdown
-          [empresas]="gastosService.empresa()"
-          [empresaInicialId]="gastosService.tarjetaEditando()?.empresaId ?? null"
-          (empresaSeleccionada)="form.patchValue({ empresaId: $event })"
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-4"
+      novalidate
+    >
+      <div>
+        <input
+          type="text"
+          formControlName="nombre"
+          placeholder="Nombre: Tarjeta Naranja"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('nombre')"
         />
-        <ng-icon
-          name="heroChevronDown"
-          size="16"
-          class="pointer-events-none absolute right-4 top-1/2 z-20 -translate-y-1/2 text-content-muted"
-        />
+        @if (campoInvalido('nombre')) {
+          <p class="mt-1 text-sm text-red-500">Ingresá un nombre</p>
+        }
       </div>
-      <input type="text" formControlName="monto" placeholder="Monto: $210000" class="modalForm" />
-      <input type="date" formControlName="vencimiento" class="modalForm" />
+
+      <div>
+        <div class="relative">
+          <app-empresa-dropdown
+            [empresas]="gastosService.empresa()"
+            [empresaInicialId]="gastosService.tarjetaEditando()?.empresaId ?? null"
+            (empresaSeleccionada)="form.patchValue({ empresaId: $event })"
+          />
+          <ng-icon
+            name="heroChevronDown"
+            size="16"
+            class="pointer-events-none absolute right-4 top-1/2 z-20 -translate-y-1/2 text-content-muted"
+          />
+        </div>
+        @if (form.controls.empresaId.invalid && form.controls.empresaId.touched) {
+          <p class="mt-1 text-sm text-red-500">Elegí una empresa</p>
+        }
+      </div>
+
+      <div>
+        <input
+          type="text"
+          inputmode="decimal"
+          formControlName="monto"
+          placeholder="Monto: $210000"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('monto')"
+        />
+        @if (campoInvalido('monto')) {
+          <p class="mt-1 text-sm text-red-500">
+            @if (form.controls.monto.hasError('required')) {
+              Ingresá un monto
+            } @else {
+              El monto debe ser un número mayor a 0
+            }
+          </p>
+        }
+      </div>
+
+      <div>
+        <input
+          type="date"
+          formControlName="vencimiento"
+          class="modalForm"
+          [class.border-red-500]="campoInvalido('vencimiento')"
+        />
+        @if (campoInvalido('vencimiento')) {
+          <p class="mt-1 text-sm text-red-500">Elegí una fecha de vencimiento</p>
+        }
+      </div>
+
       <button type="submit" class="btn-primary">Cargar Tarjeta</button>
       <button type="button" class="btn-ghost" (click)="gastosService.cerrarModal()">
         Cancelar

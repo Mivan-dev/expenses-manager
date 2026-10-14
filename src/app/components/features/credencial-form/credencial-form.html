@@ -35,7 +35,9 @@
         placeholder="Número identificador"
         class="modalForm"
       />
-
+      @if (error()) {
+        <p role="alert" class="text-sm text-red-500">{{ error() }}</p>
+      }
       <button type="submit" class="btn-primary">Agregar</button>
       <button type="button" class="btn-ghost" (click)="gastosService.cerrarModal()">
         Cancelar
