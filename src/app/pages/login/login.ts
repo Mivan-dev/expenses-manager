@@ -17,14 +17,19 @@ export class Login {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  onSubmit(){
-    console.log(this.form.valid, this.form.errors, this.form.value)
-    if(this.form.valid){
-      const data = {
-        email: this.form.value.email!,
-        password: this.form.value.password!
-      }
-      this.authLogin.logIn(data)
+  campoInvalido(nombre: 'email' | 'password') {
+    const control = this.form.controls[nombre];
+    return control.invalid && (control.touched || control.dirty);
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+    this.authLogin.logIn({
+      email: this.form.value.email!,
+      password: this.form.value.password!,
+    });
   }
 }

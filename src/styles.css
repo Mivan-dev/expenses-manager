@@ -61,8 +61,8 @@
   }
 
   .btn-primary {
-    @apply cursor-pointer rounded-lg bg-teal-600 py-2 font-medium text-white transition hover:bg-teal-500;
-  }
+  @apply cursor-pointer rounded-lg bg-teal-600 py-2 font-medium text-white transition hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-teal-600;
+ }
 
   .btn-ghost {
     @apply cursor-pointer rounded-lg bg-content/5 py-2 text-content-muted transition hover:bg-content/10;
