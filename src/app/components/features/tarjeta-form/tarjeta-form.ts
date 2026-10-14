@@ -4,12 +4,12 @@ import { GastosService } from '../../../services/gastos';
 import { EmpresaDropdown } from '../empresa-dropdown/empresa-dropdown';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroChevronDown } from '@ng-icons/heroicons/outline';
-
+import { montoPositivo } from '../../../utils/validadores';
 
 @Component({
   selector: 'app-tarjeta-form',
   imports: [ReactiveFormsModule, EmpresaDropdown, NgIconComponent],
-  providers: [provideIcons({ heroChevronDown})],
+  providers: [provideIcons({ heroChevronDown })],
   templateUrl: './tarjeta-form.html',
   styleUrl: './tarjeta-form.css',
 })
@@ -31,34 +31,41 @@ export class TarjetaForm {
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    monto: ['', Validators.required],
+    monto: ['', [Validators.required, montoPositivo]],
     vencimiento: ['', Validators.required],
-    empresaId: ['', Validators.required]
+    empresaId: ['', Validators.required],
   });
+
+  campoInvalido(nombre: 'nombre' | 'monto' | 'vencimiento' | 'empresaId') {
+    const control = this.form.controls[nombre];
+    return control.invalid && (control.touched || control.dirty);
+  }
 
   onSubmit() {
     const tarjetaEditando = this.gastosService.tarjetaEditando();
-    if (this.form.valid) {
-      if (tarjetaEditando) {
-        const editandoTarjeta = {
-          nombre: this.form.value.nombre!,
-          monto: Number(this.form.value.monto),
-          vencimiento: this.form.value.vencimiento!,
-          empresaId: this.form.value.empresaId!,
-        };
-        this.gastosService.editarTarjeta(tarjetaEditando.id, editandoTarjeta);
-      } else {
-        const nuevaTarjeta = {
-          nombre: this.form.value.nombre!,
-          monto: Number(this.form.value.monto),
-          vencimiento: this.form.value.vencimiento!,
-          empresaId: this.form.value.empresaId!,
-        };
-        this.gastosService.agregarTarjeta(nuevaTarjeta);
-      }
-
-      this.gastosService.cerrarModal();
-      this.form.reset();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+    if (tarjetaEditando) {
+      const editandoTarjeta = {
+        nombre: this.form.value.nombre!,
+        monto: Number(this.form.value.monto),
+        vencimiento: this.form.value.vencimiento!,
+        empresaId: this.form.value.empresaId!,
+      };
+      this.gastosService.editarTarjeta(tarjetaEditando.id, editandoTarjeta);
+    } else {
+      const nuevaTarjeta = {
+        nombre: this.form.value.nombre!,
+        monto: Number(this.form.value.monto),
+        vencimiento: this.form.value.vencimiento!,
+        empresaId: this.form.value.empresaId!,
+      };
+      this.gastosService.agregarTarjeta(nuevaTarjeta);
+    }
+
+    this.gastosService.cerrarModal();
+    this.form.reset();
   }
 }
