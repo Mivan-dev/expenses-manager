@@ -5,6 +5,7 @@ import { heroSun, heroMoon, heroCreditCard, heroDocumentCurrencyDollar, heroPlus
 import { Auth } from '../../../services/auth';
 import { ThemeService } from '../../../services/theme/theme.ts';
 import { Logo } from '../logo/logo';
+import { version } from '../../../../../package.json';
 
 @Component({
   selector: 'app-nav',
@@ -15,6 +16,7 @@ import { Logo } from '../logo/logo';
   styleUrl: './nav.css',
 })
 export class Nav {
+  version = version;
   auth = inject(Auth);
   theme = inject(ThemeService);
   gastosService = inject(GastosService);
