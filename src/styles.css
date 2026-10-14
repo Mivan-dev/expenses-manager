@@ -27,6 +27,7 @@
 /* Expone las variables como utilidades: bg-canvas, bg-surface, text-content... */
 @theme inline {
   --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-brand: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-border: var(--surface-border);

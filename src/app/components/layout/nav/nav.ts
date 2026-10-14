@@ -4,10 +4,11 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroSun, heroMoon, heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft } from '@ng-icons/heroicons/outline';
 import { Auth } from '../../../services/auth';
 import { ThemeService } from '../../../services/theme/theme.ts';
+import { Logo } from '../logo/logo';
 
 @Component({
   selector: 'app-nav',
-  imports: [NgIconComponent],
+  imports: [NgIconComponent, Logo],
   providers: [provideIcons({ heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft, heroSun,
       heroMoon, })],
   templateUrl: './nav.html',
