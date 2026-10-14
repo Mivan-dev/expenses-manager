@@ -1,18 +1,24 @@
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { GastosService } from '../../../services/gastos';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft } from '@ng-icons/heroicons/outline';
+import { heroSun, heroMoon, heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft } from '@ng-icons/heroicons/outline';
 import { Auth } from '../../../services/auth';
+import { ThemeService } from '../../../services/theme/theme.ts';
+import { Logo } from '../logo/logo';
+import { version } from '../../../../../package.json';
 
 @Component({
   selector: 'app-nav',
-  imports: [NgIconComponent],
-  providers: [provideIcons({ heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft })],
+  imports: [NgIconComponent, Logo],
+  providers: [provideIcons({ heroCreditCard, heroDocumentCurrencyDollar, heroPlus, heroArrowLeftStartOnRectangle, heroArrowsRightLeft, heroSun,
+      heroMoon, })],
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
 export class Nav {
+  version = version;
   auth = inject(Auth);
+  theme = inject(ThemeService);
   gastosService = inject(GastosService);
   isExpanded = signal<boolean>(true);
 

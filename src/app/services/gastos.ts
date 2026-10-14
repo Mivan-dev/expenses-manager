@@ -6,6 +6,7 @@ import { Empresa } from '../models/empresa.model';
 import { TarjetaApi } from './tarjeta-api/tarjeta-api';
 import { ServicioApi } from './servicio-api/servicio-api';
 import { CuotaApi } from './cuota-api/cuota-api';
+import { hoyAMedianoche } from '../utils/fechas';
 
 @Injectable({
   providedIn: 'root',
@@ -42,29 +43,35 @@ export class GastosService {
     this.tarjetaEditando.set(tarjeta ?? null);
     this.cuota.set(cuota ?? null);
     this.servicioEditando.set(servicio ?? null);
-    this.credencialSeleccionada.set(etiqueta ?? null)
+    this.credencialSeleccionada.set(etiqueta ?? null);
   }
 
   public cerrarModal() {
     this.modalAbierto.set(null);
   }
 
-  private loadData() {
+  public loadData() {
     this.tarjetaApi.getAll().subscribe({
       next: (req) => {
-        this.tarjeta.set(req);
+        this.tarjeta.set(req); 
+        this.actualizarCuotas();
       },
+      error: (err) => console.error('Error al cargar tarjetas', err),
     });
     this.empresaApi.getAll().subscribe({
-      next: (req) => {
-        this.empresa.set(req);
-      },
+      next: (req) => this.empresa.set(req),
+      error: (err) => console.error('Error al cargar empresas', err),
     });
     this.servicioApi.getAll().subscribe({
-      next: (req) => {
-        this.servicio.set(req);
-      },
+      next: (req) => this.servicio.set(req),
+      error: (err) => console.error('Error al cargar servicios', err),
     });
+  }
+
+  public limpiarDatos() {
+    this.tarjeta.set([]);
+    this.servicio.set([]);
+    this.empresa.set([]);
   }
 
   public agregarTarjeta(data: {
@@ -233,7 +240,7 @@ export class GastosService {
   }
 
   ProximosVtos = computed(() => {
-    const hoy = new Date();
+    const hoy = hoyAMedianoche();
     const tarjetas = this.tarjeta().map((t) => ({
       nombre: t.nombre,
       monto: t.monto,
@@ -247,7 +254,7 @@ export class GastosService {
       tipo: 'servicio',
     }));
     return [...tarjetas, ...servicios]
-      .filter((item) => item.fecha > hoy)
+      .filter((item) => item.fecha >= hoy)
       .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
       .slice(0, 5);
   });

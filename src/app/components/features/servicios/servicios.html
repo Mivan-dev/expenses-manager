@@ -1,93 +1,139 @@
-<div class="flex bg-rose-100 justify-end p-1 pr-8 rounded-lg">
-  <p class="font-bold tracking-wide text-lg">
+<div class="card flex justify-end px-5 py-2">
+  <p class="text-lg font-bold tracking-wide">
     Total Servicios
-    {{ gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+    <span class="text-rose-500">{{ gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</span>
   </p>
 </div>
-<div class="grid md:grid-cols-3 2xl:grid-cols-5 gap-4 items-start pt-4">
+
+<div class="grid items-start gap-4 pt-4 md:grid-cols-3 2xl:grid-cols-5">
   @for (servicio of gastosService.servicio(); track servicio.id) {
-    <div class="flex flex-col rounded-xl bg-rose-50 h-auto gap-4 p-4 md:w-80">
-      <div class="flex flex-row gap-4 justify-between">
-        <div class="flex gap-8 items-center justify-center">
-          <p class="text-lg text-center font-bold">{{ servicio.nombre }}</p>
+    <div class="card flex flex-col gap-4 border-l-4 border-l-rose-400">
+      <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0">
+          <p class="truncate text-lg font-bold">{{ servicio.nombre }}</p>
           <h2 class="text-2xl font-bold">
             {{ servicio.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
           </h2>
         </div>
-        <div class="flex gap-2 items-center">
-          <button class="cursor-pointer" (click)="abrirUrl(getEmpresa(servicio.empresaId)?.url)">
-            <ng-icon name="heroArrowTopRightOnSquare" class="w-4 h-4" />
+        <div class="flex items-center gap-3 text-content-muted">
+          <button
+            type="button"
+            aria-label="Abrir sitio de la empresa"
+            class="cursor-pointer transition hover:text-content"
+            (click)="abrirUrl(getEmpresa(servicio.empresaId)?.url)"
+          >
+            <ng-icon name="heroArrowTopRightOnSquare" size="16" />
           </button>
           <button
-            class="cursor-pointer"
+            type="button"
+            aria-label="Editar servicio"
+            class="cursor-pointer transition hover:text-content"
             (click)="
-              gastosService.abrirModal(
-                'editarServicio',
-                servicio.id,
-                undefined,
-                undefined,
-                servicio
-              )
+              gastosService.abrirModal('editarServicio', servicio.id, undefined, undefined, servicio)
             "
           >
-            <ng-icon name="heroPencil" class="w-4 h-4" />
+            <ng-icon name="heroPencil" size="16" />
           </button>
           <button
-            class="cursor-pointer"
+            type="button"
+            aria-label="Eliminar servicio"
+            class="cursor-pointer transition hover:text-red-500"
             (click)="gastosService.abrirModal('confirmarServicio', servicio.id)"
           >
-            <ng-icon name="heroTrash" class="w-4 h-4" />
+            <ng-icon name="heroTrash" size="16" />
           </button>
         </div>
       </div>
 
-      <div class="flex justify-between text-xs p-2">
-        <a class="flex flex-row justify-between items-center">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
           <img
             [src]="getEmpresa(servicio.empresaId)?.icono"
-            class="rounded-full h-8 w-8 mr-2 object-cover"
+            alt=""
+            class="h-8 w-8 rounded-full object-cover"
           />
-          <span class="font-bold tracking-wide text-sm text-gray-700">{{
-            getEmpresa(servicio.empresaId)?.nombre
-          }}</span>
-        </a>
-        <div class="text-sm tracking-tight text-right text-emerald-900">
-          <p>Vence {{ servicio.vencimiento | date: 'dd/MM/yyyy' }}</p>
+          <span class="text-sm font-semibold tracking-wide text-content-muted">
+            {{ getEmpresa(servicio.empresaId)?.nombre }}
+          </span>
         </div>
+        <span class="text-sm tracking-tight text-content-muted">
+          Vence {{ servicio.vencimiento | date: 'dd/MM/yyyy' }}
+        </span>
       </div>
+
       @if (servicio.etiqueta1 && servicio.valor1) {
-  <div class="flex gap-4">
-    <p class="text-sm tracking-tight text-left">
-      {{ etiquetaLabels[servicio.etiqueta1] }} {{ servicio.valor1 }}
-    </p>
-    <button>
-      <ng-icon name="heroDocumentDuplicate" class="w-1/4 cursor-pointer" (click)="copiarCredencial(servicio.valor1)" />
-    </button>
-    <button (click)="gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '1')">
-      <ng-icon name="heroTrash" class="w-1/4 cursor-pointer" />
-    </button>
-  </div>
-}
-@if (servicio.etiqueta2 && servicio.valor2) {
-  <div class="flex gap-4">
-    <p class="text-sm tracking-tight text-left">
-      {{ etiquetaLabels[servicio.etiqueta2] }} {{ servicio.valor2 }}
-    </p>
-    <button>
-      <ng-icon name="heroDocumentDuplicate" class="w-1/4 cursor-pointer" (click)="copiarCredencial(servicio.valor2)" />
-    </button>
-    <button (click)="gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '2')">
-      <ng-icon name="heroTrash" class="w-1/4 cursor-pointer" />
-    </button>
-  </div>
-}
-@if (!servicio.etiqueta1 || !servicio.etiqueta2) {
-  <ng-icon name="heroPlus" class="w-1/4" (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)" />
-}
+        <div class="flex items-center justify-between gap-3 rounded-lg bg-content/5 px-3 py-2">
+          <p class="min-w-0 truncate text-sm tracking-tight">
+            <span class="text-content-muted">{{ etiquetaLabels[servicio.etiqueta1] }}</span>
+            {{ servicio.valor1 }}
+          </p>
+          <div class="flex gap-3 text-content-muted">
+            <button
+              type="button"
+              aria-label="Copiar credencial"
+              class="cursor-pointer transition hover:text-content"
+              (click)="copiarCredencial(servicio.valor1)"
+            >
+              <ng-icon name="heroDocumentDuplicate" size="16" />
+            </button>
+            <button
+              type="button"
+              aria-label="Eliminar credencial"
+              class="cursor-pointer transition hover:text-red-500"
+              (click)="
+                gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '1')
+              "
+            >
+              <ng-icon name="heroTrash" size="16" />
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (servicio.etiqueta2 && servicio.valor2) {
+        <div class="flex items-center justify-between gap-3 rounded-lg bg-content/5 px-3 py-2">
+          <p class="min-w-0 truncate text-sm tracking-tight">
+            <span class="text-content-muted">{{ etiquetaLabels[servicio.etiqueta2] }}</span>
+            {{ servicio.valor2 }}
+          </p>
+          <div class="flex gap-3 text-content-muted">
+            <button
+              type="button"
+              aria-label="Copiar credencial"
+              class="cursor-pointer transition hover:text-content"
+              (click)="copiarCredencial(servicio.valor2)"
+            >
+              <ng-icon name="heroDocumentDuplicate" size="16" />
+            </button>
+            <button
+              type="button"
+              aria-label="Eliminar credencial"
+              class="cursor-pointer transition hover:text-red-500"
+              (click)="
+                gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '2')
+              "
+            >
+              <ng-icon name="heroTrash" size="16" />
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (!servicio.etiqueta1 || !servicio.etiqueta2) {
+        <button
+          type="button"
+          class="btn-ghost flex items-center justify-center gap-1 border border-surface-border text-sm font-semibold"
+          (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)"
+        >
+          <ng-icon name="heroPlus" size="16" />
+          Credencial
+        </button>
+      }
     </div>
   }
+
   @if (toastVisible()) {
-    <div class="fixed bottom-4 right-4 bg-teal-600 text-white px-4 py-2 rounded-lg">
+    <div class="fixed bottom-4 right-4 rounded-lg bg-teal-600 px-4 py-2 text-white shadow-lg">
       ¡Copiado en portapapeles!
     </div>
   }
