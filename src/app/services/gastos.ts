@@ -253,6 +253,8 @@ export class GastosService {
       .reduce((sum, s) => sum + s.monto, 0),
   );
 
+  public pendienteMensual = computed(() => this.pendienteTarjetas() + this.pendienteServicios());
+
   public actualizarCuotas() {
     const tarjetasActualizadas = this.tarjeta().map((t) => ({
       ...t,
@@ -272,21 +274,23 @@ export class GastosService {
   }
 
   ProximosVtos = computed(() => {
-    const hoy = hoyAMedianoche();
+    const hoy = new Date();
     const tarjetas = this.tarjeta().map((t) => ({
       nombre: t.nombre,
       monto: t.monto,
       fecha: new Date(t.vencimiento + 'T00:00:00'),
       tipo: 'tarjeta',
+      pagado: t.pagado,
     }));
     const servicios = this.servicio().map((s) => ({
       nombre: s.nombre,
       monto: s.monto,
       fecha: new Date(s.vencimiento + 'T00:00:00'),
       tipo: 'servicio',
+      pagado: s.pagado,
     }));
     return [...tarjetas, ...servicios]
-      .filter((item) => item.fecha >= hoy)
+      .filter((item) => !item.pagado && item.fecha > hoy)
       .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
       .slice(0, 5);
   });
