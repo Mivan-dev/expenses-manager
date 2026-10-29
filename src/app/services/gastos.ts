@@ -53,7 +53,7 @@ export class GastosService {
   public loadData() {
     this.tarjetaApi.getAll().subscribe({
       next: (req) => {
-        this.tarjeta.set(req); 
+        this.tarjeta.set(req);
         this.actualizarCuotas();
       },
       error: (err) => console.error('Error al cargar tarjetas', err),
@@ -112,6 +112,16 @@ export class GastosService {
     });
   }
 
+  public marcarPagadoTarjeta(id: string, pagado: boolean) {
+    this.tarjetaApi.update(id, { pagado }).subscribe({
+      next: (req) => {
+        this.tarjeta.set(
+          this.tarjeta().map((t) => (t.id === id ? { ...t, pagado: req.pagado } : t)),
+        );
+      },
+    });
+  }
+
   public agregarServicio(data: {
     nombre: string;
     empresaId: string;
@@ -154,6 +164,16 @@ export class GastosService {
         const servicios = this.servicio();
         const newServicios = servicios.filter((s) => s.id !== id);
         this.servicio.set(newServicios);
+      },
+    });
+  }
+
+  public marcarPagadoServicio(id: string, pagado: boolean) {
+    this.servicioApi.update(id, { pagado }).subscribe({
+      next: (req) => {
+        this.servicio.set(
+          this.servicio().map((s) => (s.id === id ? { ...s, pagado: req.pagado } : s)),
+        );
       },
     });
   }
@@ -221,6 +241,20 @@ export class GastosService {
 
   public totalMensual = computed(() => this.totalTarjetas() + this.totalServicios());
 
+  public pendienteTarjetas = computed(() =>
+    this.tarjeta()
+      .filter((t) => !t.pagado)
+      .reduce((sum, t) => sum + t.monto, 0),
+  );
+
+  public pendienteServicios = computed(() =>
+    this.servicio()
+      .filter((s) => !s.pagado)
+      .reduce((sum, s) => sum + s.monto, 0),
+  );
+
+  public pendienteMensual = computed(() => this.pendienteTarjetas() + this.pendienteServicios());
+
   public actualizarCuotas() {
     const tarjetasActualizadas = this.tarjeta().map((t) => ({
       ...t,
@@ -240,21 +274,23 @@ export class GastosService {
   }
 
   ProximosVtos = computed(() => {
-    const hoy = hoyAMedianoche();
+    const hoy = new Date();
     const tarjetas = this.tarjeta().map((t) => ({
       nombre: t.nombre,
       monto: t.monto,
       fecha: new Date(t.vencimiento + 'T00:00:00'),
       tipo: 'tarjeta',
+      pagado: t.pagado,
     }));
     const servicios = this.servicio().map((s) => ({
       nombre: s.nombre,
       monto: s.monto,
       fecha: new Date(s.vencimiento + 'T00:00:00'),
       tipo: 'servicio',
+      pagado: s.pagado,
     }));
     return [...tarjetas, ...servicios]
-      .filter((item) => item.fecha >= hoy)
+      .filter((item) => !item.pagado && item.fecha > hoy)
       .sort((a, b) => a.fecha.getTime() - b.fecha.getTime())
       .slice(0, 5);
   });

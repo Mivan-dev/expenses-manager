@@ -22,7 +22,7 @@ export class TarjetaApi {
     return this.httpClient.post<Tarjeta>(this.baseURL+'/tarjeta', data)
   }
 
-  update(id: string, data: {nombre: string, monto: number, vencimiento: string, empresaId: string}){
+  update(id: string, data: Partial<{nombre: string, monto: number, vencimiento: string, empresaId: string, pagado: boolean}>){
     return this.httpClient.patch<Tarjeta>(this.baseURL+'/tarjeta/'+id, data)
   }
 
