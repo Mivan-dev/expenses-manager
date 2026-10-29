@@ -6,7 +6,9 @@
 
   <p class="text-lg font-bold tracking-wide">
     Total Servicios
-    <span class="text-rose-500">{{ gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</span>
+    <span class="text-rose-500">{{
+      gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'
+    }}</span>
   </p>
 </div>
 
