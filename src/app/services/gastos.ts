@@ -53,7 +53,7 @@ export class GastosService {
   public loadData() {
     this.tarjetaApi.getAll().subscribe({
       next: (req) => {
-        this.tarjeta.set(req); 
+        this.tarjeta.set(req);
         this.actualizarCuotas();
       },
       error: (err) => console.error('Error al cargar tarjetas', err),
@@ -112,6 +112,16 @@ export class GastosService {
     });
   }
 
+  public marcarPagadoTarjeta(id: string, pagado: boolean) {
+    this.tarjetaApi.update(id, { pagado }).subscribe({
+      next: (req) => {
+        this.tarjeta.set(
+          this.tarjeta().map((t) => (t.id === id ? { ...t, pagado: req.pagado } : t)),
+        );
+      },
+    });
+  }
+
   public agregarServicio(data: {
     nombre: string;
     empresaId: string;
@@ -154,6 +164,16 @@ export class GastosService {
         const servicios = this.servicio();
         const newServicios = servicios.filter((s) => s.id !== id);
         this.servicio.set(newServicios);
+      },
+    });
+  }
+
+  public marcarPagadoServicio(id: string, pagado: boolean) {
+    this.servicioApi.update(id, { pagado }).subscribe({
+      next: (req) => {
+        this.servicio.set(
+          this.servicio().map((s) => (s.id === id ? { ...s, pagado: req.pagado } : s)),
+        );
       },
     });
   }
