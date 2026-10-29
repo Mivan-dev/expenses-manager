@@ -1,0 +1,21 @@
+<div class="flex items-center gap-3">
+  <img
+    src="/trackio-logo.svg"
+    alt="Trackio"
+    class="shrink-0"
+    [class]="tamano() === 'lg' ? 'h-14 w-14' : 'h-10 w-10'"
+  />
+  @if (mostrarNombre()) {
+    <div class="leading-tight">
+      <span
+        class="block font-brand font-bold"
+        [class]="tamano() === 'lg' ? 'text-3xl' : 'text-2xl'"
+      >
+        Trackio
+      </span>
+      @if (mostrarLema()) {
+        <span class="block text-sm text-content-muted">Control de gastos mensuales</span>
+      }
+    </div>
+  }
+</div>

@@ -6,12 +6,13 @@
 /* Valores por tema */
 :root {
   color-scheme: light;
-  --canvas: #f1f5f9;
-  --surface: #ffffff;
-  --surface-border: rgb(15 23 42 / 0.08);
-  --content: #0f172a;
-  --content-muted: #64748b;
-  --dot: rgb(15 23 42 / 0.07);
+  --canvas: #e3e8ee;
+  --surface: #f9fafc;
+  --surface-border: rgb(51 65 85 / 0.14);
+  --content: #1e293b;
+  --content-muted: #5a6a7e;
+  --dot: rgb(51 65 85 / 0.10);
+  --accent: #0d9488;
 }
 
 .dark {
@@ -27,12 +28,14 @@
 /* Expone las variables como utilidades: bg-canvas, bg-surface, text-content... */
 @theme inline {
   --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-brand: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-border: var(--surface-border);
   --color-content: var(--content);
   --color-content-muted: var(--content-muted);
   --color-accent: #2dd4bf;
+  --color-accent: var(--accent);
 }
 
 @layer base {
@@ -41,11 +44,17 @@
     background-image: radial-gradient(var(--dot) 1px, transparent 1px);
     background-size: 24px 24px;
   }
+  :root:not(.dark) body {
+  background-image:
+    radial-gradient(60rem 30rem at 0% 0%, rgb(13 148 136 / 0.10), transparent 60%),
+    radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
+  }
 }
 
 @layer components {
   .card {
-    @apply rounded-2xl border border-surface-border bg-surface p-5 shadow-sm transition;
+  @apply rounded-2xl border border-surface-border bg-surface p-5 shadow-md shadow-slate-900/10 transition;
   }
 
   .modal-panel {
@@ -61,8 +70,8 @@
   }
 
   .btn-primary {
-    @apply cursor-pointer rounded-lg bg-teal-600 py-2 font-medium text-white transition hover:bg-teal-500;
-  }
+  @apply cursor-pointer rounded-lg bg-teal-600 py-2 font-medium text-white transition hover:bg-teal-500 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-teal-600;
+ }
 
   .btn-ghost {
     @apply cursor-pointer rounded-lg bg-content/5 py-2 text-content-muted transition hover:bg-content/10;

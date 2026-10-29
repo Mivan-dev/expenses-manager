@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { GastosService } from '../../../services/gastos';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { EtiquetaCredencial, EtiquetaLabels } from '../../../models/servicio.model';
@@ -34,13 +34,24 @@ export class CredencialForm {
     valor2: '',
   });
 
+  error = signal<string | null>(null);
+
   onSubmit() {
     const servicio = this.gastosService.servicioEditando();
-    const { etiqueta1, valor1, etiqueta2, valor2 } = this.form.value;
+    const etiqueta1 = this.form.value.etiqueta1;
+    const etiqueta2 = this.form.value.etiqueta2;
+    const valor1 = this.form.value.valor1?.trim();
+    const valor2 = this.form.value.valor2?.trim();
     const credencial1Valida = !!etiqueta1 && !!valor1;
     const credencial2Valida = !!etiqueta2 && !!valor2;
 
-    if (servicio && (credencial1Valida || credencial2Valida)) {
+    if (!credencial1Valida && !credencial2Valida) {
+      this.error.set('Completá al menos una credencial (tipo y número)');
+      return;
+    }
+    this.error.set(null);
+
+    if (servicio) {
       this.gastosService.editarServicio(servicio.id, {
         nombre: servicio.nombre,
         monto: servicio.monto,

@@ -1,11 +1,11 @@
 <div class="flex">
   <div
-    class="min-h-screen border-r border-surface-border bg-surface transition-all"
+    class="sticky top-0 h-dvh shrink-0 self-start border-r border-surface-border bg-surface transition-all"
     [ngClass]="isNavExpanded() ? 'w-50' : 'w-16'"
   >
     <app-nav (expandedChange)="onNavToggle($event)" />
   </div>
- <main class="flex min-w-0 flex-1 flex-col gap-4 p-8">
+  <main class="flex min-w-0 flex-1 flex-col gap-4 p-8">
     <div class="card flex items-center justify-between border-l-4 border-l-teal-400 px-5 py-3">
       <p class="text-sm font-semibold uppercase tracking-wide text-content-muted">Total mensual</p>
       <p class="text-2xl font-bold">
