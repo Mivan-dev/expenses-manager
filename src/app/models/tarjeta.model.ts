@@ -5,5 +5,6 @@ export interface Tarjeta extends EntidadBase {
     empresaId: string;
     monto: number;
     vencimiento: string;
+    pagado: boolean;
     cuotas: Cuota[];
 }

@@ -4,6 +4,7 @@ export interface Servicio extends EntidadBase {
   empresaId: string;
   monto: number;
   vencimiento: string;
+  pagado: boolean;
   etiqueta1?: EtiquetaCredencial | null;
   valor1?: string | null;
   etiqueta2?: EtiquetaCredencial | null;

@@ -1,92 +1,136 @@
-<div class="card flex justify-end px-5 py-2">
+<div class="card flex items-center justify-between px-5 py-2">
+  <p class="text-base font-bold tracking-wide">
+    <span class="text-content-muted">Pendiente</span>
+    <span class="ml-1.5 tabular-nums text-amber-300/70">{{
+      gastosService.pendienteTarjetas() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'
+    }}</span>
+  </p>
+
   <p class="text-lg font-bold tracking-wide">
     Total Tarjetas
-    <span class="text-amber-500">{{ gastosService.totalTarjetas() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</span>
+    <span class="text-amber-500">{{
+      gastosService.totalTarjetas() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'
+    }}</span>
   </p>
 </div>
 
 <div class="grid items-start gap-4 pt-4 md:grid-cols-3 2xl:grid-cols-5">
   @for (tarjeta of gastosService.tarjeta(); track tarjeta.id) {
-    <div class="card flex flex-col gap-4 border-l-4 border-l-amber-400">
-      <div class="flex justify-end gap-3 text-content-muted">
-        <button
-          type="button"
-          aria-label="Editar tarjeta"
-          class="cursor-pointer transition hover:text-content"
-          (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)"
-        >
-          <ng-icon name="heroPencil" size="16" />
-        </button>
-        <button
-          type="button"
-          aria-label="Eliminar tarjeta"
-          class="cursor-pointer transition hover:text-red-500"
-          (click)="gastosService.abrirModal('confirmarTarjeta', tarjeta.id)"
-        >
-          <ng-icon name="heroTrash" size="16" />
-        </button>
-      </div>
+    <div class="card relative overflow-hidden border-l-4 border-l-amber-400">
+      <!-- Switch pagado: fuera del contenedor atenuado, siempre se ve normal -->
+      <button
+        type="button"
+        role="switch"
+        [attr.aria-checked]="tarjeta.pagado"
+        aria-label="Marcar tarjeta como pagada"
+        class="absolute left-5 top-4 z-20 inline-flex h-5 w-9 cursor-pointer items-center rounded-full transition-colors"
+        [class.bg-emerald-600]="tarjeta.pagado"
+        [class.bg-slate-600]="!tarjeta.pagado"
+        (click)="gastosService.marcarPagadoTarjeta(tarjeta.id, !tarjeta.pagado)"
+      >
+        <span
+          class="ml-0.5 inline-block h-4 w-4 rounded-full bg-white shadow transition-transform"
+          [class.translate-x-4]="tarjeta.pagado"
+        ></span>
+      </button>
 
-      <div class="flex items-center justify-between">
-        <p class="text-lg font-bold">{{ tarjeta.nombre }}</p>
-        <h2 class="text-2xl font-bold">
-          {{ tarjeta.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
-        </h2>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <img
-            [src]="getEmpresa(tarjeta.empresaId)?.icono"
-            alt=""
-            class="h-8 w-8 rounded-full object-cover"
-          />
-          <span class="text-sm font-semibold tracking-wide text-content-muted">
-            {{ getEmpresa(tarjeta.empresaId)?.nombre }}
-          </span>
-        </div>
-        <span class="text-sm tracking-tight text-content-muted">
-          Vence: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
-        </span>
-      </div>
-
-      <hr class="border-surface-border" />
-
-      @for (cuota of tarjeta.cuotas; track cuota.id) {
-        <div class="grid grid-cols-4 items-center gap-2 text-sm tracking-tight">
-          <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="truncate">
-            {{ cuota.nombre }}
-          </p>
-          <p
-            [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal"
-            class="text-center text-content-muted"
-          >
-            {{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}
-          </p>
-          <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="text-right">
-            {{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
-          </p>
+      <!-- Todo el contenido: se atenúa y difumina cuando está pagada -->
+      <div
+        class="flex flex-col gap-4 transition"
+        [class.opacity-40]="tarjeta.pagado"
+        [class.blur-xs]="tarjeta.pagado"
+        [class.pointer-events-none]="tarjeta.pagado"
+        [class.select-none]="tarjeta.pagado"
+      >
+        <div class="flex justify-end gap-3 text-content-muted">
           <button
             type="button"
-            aria-label="Eliminar cuota"
-            class="cursor-pointer justify-self-end text-content-muted transition hover:text-red-500"
-            (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)"
+            aria-label="Editar tarjeta"
+            class="cursor-pointer transition hover:text-content"
+            (click)="gastosService.abrirModal('editarTarjeta', tarjeta.id, tarjeta)"
+          >
+            <ng-icon name="heroPencil" size="16" />
+          </button>
+          <button
+            type="button"
+            aria-label="Eliminar tarjeta"
+            class="cursor-pointer transition hover:text-red-500"
+            (click)="gastosService.abrirModal('confirmarTarjeta', tarjeta.id)"
           >
             <ng-icon name="heroTrash" size="16" />
           </button>
         </div>
+
+        <div class="flex items-center justify-between">
+          <p class="text-lg font-bold">{{ tarjeta.nombre }}</p>
+          <h2 class="text-2xl font-bold">
+            {{ tarjeta.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+          </h2>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img
+              [src]="getEmpresa(tarjeta.empresaId)?.icono"
+              alt=""
+              class="h-8 w-8 rounded-full object-cover"
+            />
+            <span class="text-sm font-semibold tracking-wide text-content-muted">
+              {{ getEmpresa(tarjeta.empresaId)?.nombre }}
+            </span>
+          </div>
+          <span class="text-sm tracking-tight text-content-muted">
+            Vence: {{ tarjeta.vencimiento | date: 'dd/MM/yyyy' }}
+          </span>
+        </div>
+
+        <hr class="border-surface-border" />
+
+        @for (cuota of tarjeta.cuotas; track cuota.id) {
+          <div class="grid grid-cols-4 items-center gap-2 text-sm tracking-tight">
+            <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="truncate">
+              {{ cuota.nombre }}
+            </p>
+            <p
+              [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal"
+              class="text-center text-content-muted"
+            >
+              {{ cuota.cuotaActual }}/{{ cuota.cuotaTotal }}
+            </p>
+            <p [class.cuotaTerminada]="cuota.cuotaActual === cuota.cuotaTotal" class="text-right">
+              {{ cuota.monto | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}
+            </p>
+            <button
+              type="button"
+              aria-label="Eliminar cuota"
+              class="cursor-pointer justify-self-end text-content-muted transition hover:text-red-500"
+              (click)="gastosService.abrirModal('confirmar', tarjeta.id, tarjeta, cuota.id)"
+            >
+              <ng-icon name="heroTrash" size="16" />
+            </button>
+          </div>
+        }
+
+        <hr class="border-surface-border" />
+
+        <button
+          type="button"
+          class="btn-ghost flex items-center justify-center gap-1 border border-surface-border text-sm font-semibold"
+          (click)="gastosService.abrirModal('cuota', tarjeta.id)"
+        >
+          <ng-icon name="heroPlus" size="16" />
+          Cuota
+        </button>
+      </div>
+
+      <!-- Cartel PAGADO -->
+      @if (tarjeta.pagado) {
+        <span class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+          <span class="text-sm font-semibold uppercase tracking-[0.3em] text-content-muted"
+            >Pagado</span
+          >
+        </span>
       }
-
-      <hr class="border-surface-border" />
-
-      <button
-        type="button"
-        class="btn-ghost flex items-center justify-center gap-1 border border-surface-border text-sm font-semibold"
-        (click)="gastosService.abrirModal('cuota', tarjeta.id)"
-      >
-        <ng-icon name="heroPlus" size="16" />
-        Cuota
-      </button>
     </div>
   }
 </div>
