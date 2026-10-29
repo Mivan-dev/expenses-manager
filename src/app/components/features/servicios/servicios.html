@@ -1,7 +1,9 @@
 <div class="card flex justify-end px-5 py-2">
   <p class="text-lg font-bold tracking-wide">
     Total Servicios
-    <span class="text-rose-500">{{ gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR' }}</span>
+    <span class="text-rose-500">{{
+      gastosService.totalServicios() | currency: 'ARS' : 'symbol' : '1.0-0' : 'es-AR'
+    }}</span>
   </p>
 </div>
 
@@ -29,7 +31,13 @@
             aria-label="Editar servicio"
             class="cursor-pointer transition hover:text-content"
             (click)="
-              gastosService.abrirModal('editarServicio', servicio.id, undefined, undefined, servicio)
+              gastosService.abrirModal(
+                'editarServicio',
+                servicio.id,
+                undefined,
+                undefined,
+                servicio
+              )
             "
           >
             <ng-icon name="heroPencil" size="16" />
@@ -81,7 +89,14 @@
               aria-label="Eliminar credencial"
               class="cursor-pointer transition hover:text-red-500"
               (click)="
-                gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '1')
+                gastosService.abrirModal(
+                  'confirmarCredencial',
+                  servicio.id,
+                  undefined,
+                  undefined,
+                  servicio,
+                  '1'
+                )
               "
             >
               <ng-icon name="heroTrash" size="16" />
@@ -110,7 +125,14 @@
               aria-label="Eliminar credencial"
               class="cursor-pointer transition hover:text-red-500"
               (click)="
-                gastosService.abrirModal('confirmarCredencial', servicio.id, undefined, undefined, servicio, '2')
+                gastosService.abrirModal(
+                  'confirmarCredencial',
+                  servicio.id,
+                  undefined,
+                  undefined,
+                  servicio,
+                  '2'
+                )
               "
             >
               <ng-icon name="heroTrash" size="16" />
@@ -119,11 +141,13 @@
         </div>
       }
 
-      @if (!servicio.etiqueta1 || !servicio.etiqueta2) {
+      @if (!(servicio.etiqueta1 && servicio.valor1) || !(servicio.etiqueta2 && servicio.valor2)) {
         <button
           type="button"
           class="btn-ghost flex items-center justify-center gap-1 border border-surface-border text-sm font-semibold"
-          (click)="gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)"
+          (click)="
+            gastosService.abrirModal('credencial', servicio.id, undefined, undefined, servicio)
+          "
         >
           <ng-icon name="heroPlus" size="16" />
           Credencial

@@ -37,9 +37,13 @@ export class CredencialForm {
   error = signal<string | null>(null);
 
   onSubmit() {
-    const credencialesEditando = this.gastosService.servicioEditando();
-    const credencial1Valida = !!this.form.value.etiqueta1 && !!this.form.value.valor1?.trim();
-    const credencial2Valida = !!this.form.value.etiqueta2 && !!this.form.value.valor2?.trim();
+    const servicio = this.gastosService.servicioEditando();
+    const etiqueta1 = this.form.value.etiqueta1;
+    const etiqueta2 = this.form.value.etiqueta2;
+    const valor1 = this.form.value.valor1?.trim();
+    const valor2 = this.form.value.valor2?.trim();
+    const credencial1Valida = !!etiqueta1 && !!valor1;
+    const credencial2Valida = !!etiqueta2 && !!valor2;
 
     if (!credencial1Valida && !credencial2Valida) {
       this.error.set('Completá al menos una credencial (tipo y número)');
@@ -47,18 +51,19 @@ export class CredencialForm {
     }
     this.error.set(null);
 
-    if (credencialesEditando) {
-      this.gastosService.editarServicio(credencialesEditando.id, {
-        nombre: credencialesEditando.nombre,
-        monto: credencialesEditando.monto,
-        vencimiento: credencialesEditando.vencimiento,
-        empresaId: credencialesEditando.empresaId,
-        etiqueta1: (this.form.value.etiqueta1 as EtiquetaCredencial) || undefined,
-        valor1: this.form.value.valor1?.trim() || undefined,
-        etiqueta2: (this.form.value.etiqueta2 as EtiquetaCredencial) || undefined,
-        valor2: this.form.value.valor2?.trim() || undefined,
+    if (servicio) {
+      this.gastosService.editarServicio(servicio.id, {
+        nombre: servicio.nombre,
+        monto: servicio.monto,
+        vencimiento: servicio.vencimiento,
+        empresaId: servicio.empresaId,
+        etiqueta1: credencial1Valida ? (etiqueta1 as EtiquetaCredencial) : null,
+        valor1: credencial1Valida ? valor1 : null,
+        etiqueta2: credencial2Valida ? (etiqueta2 as EtiquetaCredencial) : null,
+        valor2: credencial2Valida ? valor2 : null,
       });
     }
+
     this.gastosService.cerrarModal();
     this.form.reset();
   }
