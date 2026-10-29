@@ -241,6 +241,18 @@ export class GastosService {
 
   public totalMensual = computed(() => this.totalTarjetas() + this.totalServicios());
 
+  public pendienteTarjetas = computed(() =>
+    this.tarjeta()
+      .filter((t) => !t.pagado)
+      .reduce((sum, t) => sum + t.monto, 0),
+  );
+
+  public pendienteServicios = computed(() =>
+    this.servicio()
+      .filter((s) => !s.pagado)
+      .reduce((sum, s) => sum + s.monto, 0),
+  );
+
   public actualizarCuotas() {
     const tarjetasActualizadas = this.tarjeta().map((t) => ({
       ...t,
